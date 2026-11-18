@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lịch nghỉ Tết, nghỉ Lễ 2027 - Infographic Tương Tác</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- GSAP & ScrollTrigger -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'Be Vietnam Pro', sans-serif;
+      background-color: #FFFDF9;
+      color: #1E293B;
+      overflow-x: hidden;
+    }
+
+    /* Nền trang trí tươi sáng */
+    .hero-gradient {
+      background: radial-gradient(circle at 15% 20%, rgba(254, 215, 170, 0.45) 0%, transparent 45%),
+                  radial-gradient(circle at 85% 30%, rgba(254, 205, 211, 0.5) 0%, transparent 50%),
+                  linear-gradient(180deg, #FFFDF7 0%, #FFFDF9 100%);
+    }
+
+    /* Hiệu ứng ô ngày lễ trên lịch */
+    .day-cell {
+      transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .day-holiday {
+      transform: scale(1.06);
+      box-shadow: 0 10px 20px -5px rgba(225, 29, 72, 0.35);
+    }
+    .day-weekend-off {
+      transform: scale(1.03);
+      box-shadow: 0 6px 14px -4px rgba(245, 158, 11, 0.25);
+    }
+
+    /* Hộp nội dung cuộn bên phải */
+    .step-card {
+      transition: all 0.4s ease;
+      opacity: 0.35;
+      transform: translateY(10px);
+    }
+    .step-card.is-active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Thanh tiến độ tổng ngày nghỉ */
+    .timeline-segment {
+      transition: all 0.4s ease;
+    }
+    .timeline-segment.active-seg {
+      transform: scaleY(1.35);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+    }
+  </style>
+</head>
+<body class="antialiased selection:bg-rose-500 selection:text-white">
+
+  <!-- PHẦN HERO HEADER -->
+  <header class="hero-gradient pt-10 pb-8 px-4 sm:px-6 lg:px-12 border-b border-amber-100">
+    <div class="max-w-7xl mx-auto">
+      <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-rose-100 text-rose-700 font-semibold text-xs uppercase tracking-wider mb-4">
+        <i data-lucide="calendar-heart" class="w-4 h-4"></i>
+        Cẩm nang Lịch nghỉ năm Đinh Mùi 2027
+      </div>
+
+      <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight text-slate-900 leading-tight mb-4">
+        LỊCH NGHỈ TẾT, NGHỈ LỄ <span class="text-transparent bg-clip-text bg-gradient-to-r from-rose-600 via-orange-500 to-amber-500">2027</span>
+      </h1>
+
+      <p class="text-base sm:text-lg text-slate-600 max-w-3xl leading-relaxed mb-8">
+        Chi tiết lịch nghỉ Tết Dương lịch, nghỉ Tết Nguyên đán; nghỉ lễ Giỗ Tổ Hùng Vương; nghỉ lễ 30/4-1/5; nghỉ Lễ Quốc khánh, nghỉ Ngày Văn hóa Việt Nam năm 2027.
+      </p>
+
+      <!-- Thẻ KPI tóm tắt tươi sáng -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 mb-6">
+        <div class="bg-white p-4 rounded-2xl border border-rose-100 shadow-sm flex items-center gap-3.5">
+          <div class="w-11 h-11 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center shrink-0 font-bold">
+            <i data-lucide="sparkles" class="w-5 h-5"></i>
+          </div>
+          <div>
+            <div class="text-2xl font-extrabold text-slate-900">6 đợt</div>
+            <div class="text-xs text-slate-500 font-medium">Lễ, Tết trong năm</div>
+          </div>
+        </div>
+
+        <div class="bg-white p-4 rounded-2xl border border-amber-100 shadow-sm flex items-center gap-3.5">
+          <div class="w-11 h-11 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center shrink-0 font-bold">
+            <i data-lucide="sun" class="w-5 h-5"></i>
+          </div>
+          <div>
+            <div class="text-2xl font-extrabold text-slate-900">22 ngày</div>
+            <div class="text-xs text-slate-500 font-medium">Tổng ngày nghỉ các đợt</div>
+          </div>
+        </div>
+
+        <div class="bg-white p-4 rounded-2xl border border-emerald-100 shadow-sm flex items-center gap-3.5">
+          <div class="w-11 h-11 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0 font-bold">
+            <i data-lucide="flame" class="w-5 h-5"></i>
+          </div>
+          <div>
+            <div class="text-2xl font-extrabold text-slate-900">7 ngày</div>
+            <div class="text-xs text-slate-500 font-medium">Kỳ nghỉ dài nhất (Tết ÂL)</div>
+          </div>
+        </div>
+
+        <div class="bg-white p-4 rounded-2xl border border-sky-100 shadow-sm flex items-center gap-3.5">
+          <div class="w-11 h-11 rounded-xl bg-sky-50 text-sky-600 flex items-center justify-center shrink-0 font-bold">
+            <i data-lucide="award" class="w-5 h-5"></i>
+          </div>
+          <div>
+            <div class="text-2xl font-extrabold text-slate-900">24/11</div>
+            <div class="text-xs text-slate-500 font-medium">Ngày Văn hóa Việt Nam</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Nút nhảy nhanh (Quick Jump Pills) -->
+      <div class="flex flex-wrap items-center gap-2 pt-2">
+        <span class="text-xs font-semibold uppercase tracking-wider text-slate-400 mr-1">Xem nhanh:</span>
+        <button onclick="scrollToStep(0)" id="pill-0" class="nav-pill px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all bg-rose-600 text-white shadow-sm">Tết Dương lịch (3 ngày)</button>
+        <button onclick="scrollToStep(1)" id="pill-1" class="nav-pill px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all bg-white text-slate-600 border border-slate-200 hover:border-rose-300">Tết Đinh Mùi (7 ngày)</button>
+        <button onclick="scrollToStep(2)" id="pill-2" class="nav-pill px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all bg-white text-slate-600 border border-slate-200 hover:border-rose-300">Giỗ Tổ (3 ngày)</button>
+        <button onclick="scrollToStep(3)" id="pill-3" class="nav-pill px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all bg-white text-slate-600 border border-slate-200 hover:border-rose-300">Lễ 30/4 - 1/5 (4 ngày)</button>
+        <button onclick="scrollToStep(4)" id="pill-4" class="nav-pill px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all bg-white text-slate-600 border border-slate-200 hover:border-rose-300">Quốc khánh 2/9 (4 ngày)</button>
+        <button onclick="scrollToStep(5)" id="pill-5" class="nav-pill px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all bg-white text-slate-600 border border-slate-200 hover:border-rose-300">Ngày Văn hóa 24/11 (1 ngày)</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- PHẦN NỘI DUNG SCROLLYTELLING CHÍNH (CỘT TRÁI 60% LỊCH - CỘT PHẢI 40% NỘI DUNG) -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 py-8 lg:py-14">
+    <div class="flex flex-col lg:flex-row items-start gap-8 lg:gap-10 relative">
+
+      <!-- CỘT TRÁI: 60% CHIỀU RỘNG - KHUNG LỊCH GHIM CỐ ĐỊNH (STICKY) -->
+      <div class="w-full lg:w-[60%] sticky top-2 lg:top-8 z-20">
+        <div id="calendar-wrapper" class="bg-white rounded-3xl shadow-xl border border-amber-100/80 overflow-hidden transition-all duration-500">
+          
+          <!-- Phần Gáy Lịch (Header của tờ lịch) -->
+          <div id="cal-header" class="bg-gradient-to-r from-rose-600 to-orange-500 text-white p-5 sm:p-7 transition-all duration-500 relative overflow-hidden">
+            <!-- Vòng tròn trang trí -->
+            <div class="absolute -right-10 -top-10 w-40 h-40 rounded-full bg-white/10 pointer-events-none"></div>
+            <div class="absolute right-12 -bottom-12 w-28 h-28 rounded-full bg-white/10 pointer-events-none"></div>
+
+            <div class="flex flex-wrap items-center justify-between gap-4 relative z-10">
+              <div>
+                <div class="flex items-center gap-2 text-white/90 text-xs sm:text-sm font-semibold uppercase tracking-wider mb-1">
+                  <span id="cal-badge" class="px-2.5 py-0.5 rounded-full bg-white/20 backdrop-blur-sm">Đợt 1 / 6</span>
+                  <span id="cal-lunar-note">Năm Đinh Mùi 2027</span>
+                </div>
+                <h2 id="cal-month-title" class="text-2xl sm:text-4xl font-extrabold tracking-tight">THÁNG 01 / 2027</h2>
+              </div>
+
+              <!-- Huy hiệu Tổng số ngày nghỉ -->
+              <div class="bg-white/95 text-slate-900 px-4 py-2.5 rounded-2xl shadow-lg flex items-center gap-3">
+                <div id="cal-total-num" class="text-3xl sm:text-4xl font-black text-rose-600 leading-none">03</div>
+                <div class="text-xs font-bold uppercase tracking-tight text-slate-600 leading-tight">
+                  Ngày nghỉ<br><span id="cal-total-sub" class="text-[11px] font-medium text-slate-400">Liên tục</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Phần Thân Lịch (Grid Thứ 2 -> Chủ Nhật) -->
+          <div class="p-4 sm:p-6 lg:p-7">
+            <!-- Hàng Thứ trong tuần -->
+            <div class="grid grid-cols-7 gap-1.5 sm:gap-2.5 mb-2 text-center">
+              <div class="text-xs font-bold uppercase text-slate-400 py-1">Thứ 2</div>
+              <div class="text-xs font-bold uppercase text-slate-400 py-1">Thứ 3</div>
+              <div class="text-xs font-bold uppercase text-slate-400 py-1">Thứ 4</div>
+              <div class="text-xs font-bold uppercase text-slate-400 py-1">Thứ 5</div>
+              <div class="text-xs font-bold uppercase text-slate-400 py-1">Thứ 6</div>
+              <div class="text-xs font-bold uppercase text-amber-600 py-1">Thứ 7</div>
+              <div class="text-xs font-bold uppercase text-rose-600 py-1">CN</div>
+            </div>
+
+            <!-- Lưới các ô ngày (Render động bằng JS) -->
+            <div id="calendar-grid" class="grid grid-cols-7 gap-1.5 sm:gap-2.5">
+              <!-- JS sẽ đổ dữ liệu các ngày vào đây -->
+            </div>
+
+            <!-- Chú thích màu sắc (Legend) & Tóm tắt nhanh dưới tờ lịch -->
+            <div class="mt-5 pt-4 border-t border-slate-100 flex flex-wrap items-center justify-between gap-3 text-xs text-slate-600">
+              <div class="flex flex-wrap items-center gap-4">
+                <div class="flex items-center gap-1.5">
+                  <span id="legend-main-dot" class="w-3.5 h-3.5 rounded-md bg-rose-600 inline-block shadow-sm"></span>
+                  <span class="font-semibold">Ngày nghỉ Lễ/Tết chính thức</span>
+                </div>
+                <div class="flex items-center gap-1.5">
+                  <span class="w-3.5 h-3.5 rounded-md bg-amber-100 border border-amber-400 inline-block"></span>
+                  <span class="font-medium">Nghỉ cuối tuần / Nghỉ bù</span>
+                </div>
+              </div>
+              <div id="cal-footer-range" class="font-bold text-slate-800 bg-slate-100 px-3 py-1 rounded-full">
+                01/01/2027 – 03/01/2027
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- CỘT PHẢI: 40% CHIỀU RỘNG - CÁC HỘP NỘI DUNG CUỘN (SCROLL STEPS) -->
+      <div class="w-full lg:w-[40%] space-y-24 lg:space-y-48 pb-24 pt-2 lg:pt-6">
+
+        <!-- STEP 1: TẾT DƯƠNG LỊCH -->
+        <article class="step-card is-active bg-white rounded-3xl p-6 sm:p-7 shadow-lg border-2 border-rose-500 relative" data-step="0">
+          <div class="flex items-center justify-between mb-4">
+            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-rose-100 text-rose-700">
+              <i data-lucide="party-popper" class="w-3.5 h-3.5"></i> Đợt nghỉ 01
+            </span>
+            <span class="text-sm font-bold text-rose-600">Tháng 01/2027</span>
+          </div>
+          <h3 class="text-xl sm:text-2xl font-extrabold text-slate-900 mb-3">
+            Lịch nghỉ Tết Dương lịch 2027
+          </h3>
+          <p class="text-slate-600 leading-relaxed mb-4">
+            Thời gian nghỉ Tết Dương lịch năm 2027 từ <strong>thứ Sáu, ngày 1/1/2027</strong> đến hết <strong>Chủ nhật, ngày 3/1/2027</strong>.
+          </p>
+          <div class="p-4 rounded-2xl bg-rose-50/80 border border-rose-100">
+            <div class="text-xs font-bold uppercase tracking-wider text-rose-600 mb-1">Tổng số ngày nghỉ</div>
+            <div class="text-base font-bold text-slate-900">
+              Có 3 ngày liên tục <span class="font-normal text-slate-600">(bao gồm 1 ngày nghỉ Tết Dương lịch và 2 ngày nghỉ cuối tuần).</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- STEP 2: TẾT NGUYÊN ĐÁN ĐINH MÙI -->
+        <article class="step-card bg-white rounded-3xl p-6 sm:p-7 shadow-lg border-2 border-transparent" data-step="1">
+          <div class="flex items-center justify-between mb-4">
+            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-amber-100 text-amber-800">
+              <i data-lucide="sparkles" class="w-3.5 h-3.5"></i> Đợt nghỉ 02 • Kỳ nghỉ dài nhất
+            </span>
+            <span class="text-sm font-bold text-amber-600">Tháng 02/2027</span>
+          </div>
+          <h3 class="text-xl sm:text-2xl font-extrabold text-slate-900 mb-3">
+            Lịch nghỉ Tết Nguyên đán Đinh Mùi 2027
+          </h3>
+          <p class="text-slate-600 leading-relaxed mb-4">
+            Thời gian nghỉ Tết Nguyên đán Đinh Mùi 2027 từ ngày <strong>thứ Năm, ngày 4/2/2027</strong> đến hết <strong>thứ Tư, ngày 10/2/2027</strong> (tức từ ngày 28 tháng Chạp năm Bính Ngọ đến hết ngày mùng 5 tháng Giêng năm Đinh Mùi).
+          </p>
+          <div class="p-4 rounded-2xl bg-amber-50/90 border border-amber-200">
+            <div class="text-xs font-bold uppercase tracking-wider text-amber-700 mb-1">Tổng số ngày nghỉ</div>
+            <div class="text-base font-bold text-slate-900">
+              Có 7 ngày liên tục <span class="font-normal text-slate-600">(bao gồm 5 ngày nghỉ Tết theo quy định và 2 ngày nghỉ bù ngày nghỉ hằng tuần).</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- STEP 3: GIỖ TỔ HÙNG VƯƠNG -->
+        <article class="step-card bg-white rounded-3xl p-6 sm:p-7 shadow-lg border-2 border-transparent" data-step="2">
+          <div class="flex items-center justify-between mb-4">
+            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800">
+              <i data-lucide="landmark" class="w-3.5 h-3.5"></i> Đợt nghỉ 03 • Mùng 10/3 ÂL
+            </span>
+            <span class="text-sm font-bold text-emerald-600">Tháng 04/2027</span>
+          </div>
+          <h3 class="text-xl sm:text-2xl font-extrabold text-slate-900 mb-3">
+            Lịch nghỉ lễ Giỗ Tổ Hùng Vương năm 2027
+          </h3>
+          <p class="text-slate-600 leading-relaxed mb-4">
+            Thời gian nghỉ lễ Giỗ Tổ Hùng Vương năm 2027 từ <strong>thứ Sáu, ngày 16/4/2027</strong> đến hết <strong>Chủ nhật, ngày 18/4/2027</strong>.
+          </p>
+          <div class="p-4 rounded-2xl bg-emerald-50/80 border border-emerald-200">
+            <div class="text-xs font-bold uppercase tracking-wider text-emerald-700 mb-1">Tổng số ngày nghỉ</div>
+            <div class="text-base font-bold text-slate-900">
+              Có 3 ngày liên tục <span class="font-normal text-slate-600">(bao gồm 1 ngày nghỉ lễ và 2 ngày nghỉ cuối tuần).</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- STEP 4: LỄ 30/4 & 1/5 -->
+        <article class="step-card bg-white rounded-3xl p-6 sm:p-7 shadow-lg border-2 border-transparent" data-step="3">
+          <div class="flex items-center justify-between mb-4">
+            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-sky-100 text-sky-800">
+              <i data-lucide="flag" class="w-3.5 h-3.5"></i> Đợt nghỉ 04
+            </span>
+            <span class="text-sm font-bold text-sky-600">Tháng 04 – 05/2027</span>
+          </div>
+          <h3 class="text-xl sm:text-2xl font-extrabold text-slate-900 mb-3">
+            Lịch nghỉ Ngày Chiến thắng 30/4 và Quốc tế Lao động 1/5
+          </h3>
+          <p class="text-slate-600 leading-relaxed mb-4">
+            Thời gian nghỉ Ngày Chiến thắng 30/4 và Quốc tế Lao động năm 2027 từ <strong>thứ Sáu, ngày 30/4/2027</strong> đến hết <strong>thứ Hai, ngày 3/5/2027</strong>.
+          </p>
+          <div class="p-4 rounded-2xl bg-sky-50/80 border border-sky-200">
+            <div class="text-xs font-bold uppercase tracking-wider text-sky-700 mb-1">Tổng số ngày nghỉ</div>
+            <div class="text-base font-bold text-slate-900">
+              Có 4 ngày liên tục <span class="font-normal text-slate-600">(đối với người lao động có chế độ nghỉ thứ Bảy và Chủ nhật hằng tuần).</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- STEP 5: QUỐC KHÁNH 2/9 -->
+        <article class="step-card bg-white rounded-3xl p-6 sm:p-7 shadow-lg border-2 border-transparent" data-step="4">
+          <div class="flex items-center justify-between mb-4">
+            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-red-100 text-red-700">
+              <i data-lucide="star" class="w-3.5 h-3.5"></i> Đợt nghỉ 05 • Tết Độc lập
+            </span>
+            <span class="text-sm font-bold text-red-600">Tháng 09/2027</span>
+          </div>
+          <h3 class="text-xl sm:text-2xl font-extrabold text-slate-900 mb-3">
+            Lịch nghỉ Lễ Quốc khánh 2/9 năm 2027
+          </h3>
+          <p class="text-slate-600 leading-relaxed mb-4">
+            Thời gian nghỉ lễ Quốc khánh 2027 từ <strong>thứ Năm, ngày 2/9/2027</strong> đến hết <strong>Chủ nhật, ngày 5/9/2027</strong>.
+          </p>
+          <div class="p-4 rounded-2xl bg-red-50/80 border border-red-200">
+            <div class="text-xs font-bold uppercase tracking-wider text-red-600 mb-1">Tổng số ngày nghỉ</div>
+            <div class="text-base font-bold text-slate-900">
+              Có 4 ngày liên tục <span class="font-normal text-slate-600">(bao gồm 2 ngày nghỉ lễ Quốc khánh và 2 ngày cuối tuần).</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- STEP 6: NGÀY VĂN HÓA VIỆT NAM 24/11 -->
+        <article class="step-card bg-white rounded-3xl p-6 sm:p-7 shadow-lg border-2 border-transparent" data-step="5">
+          <div class="flex items-center justify-between mb-4">
+            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-purple-100 text-purple-800">
+              <i data-lucide="flower-2" class="w-3.5 h-3.5"></i> Đợt nghỉ 06 • Ngày lễ mới
+            </span>
+            <span class="text-sm font-bold text-purple-600">Tháng 11/2027</span>
+          </div>
+          <h3 class="text-xl sm:text-2xl font-extrabold text-slate-900 mb-3">
+            Lịch nghỉ Ngày Văn hóa Việt Nam 24/11/2027
+          </h3>
+          <p class="text-slate-600 leading-relaxed mb-4">
+            Thời gian nghỉ Ngày Văn hóa Việt Nam năm 2027: <strong>Thứ Tư, ngày 24/11/2027</strong>.
+          </p>
+          <div class="p-4 rounded-2xl bg-purple-50/80 border border-purple-200">
+            <div class="text-xs font-bold uppercase tracking-wider text-purple-700 mb-1">Tổng số ngày nghỉ</div>
+            <div class="text-base font-bold text-slate-900">
+              1 ngày nghỉ <span class="font-normal text-slate-600">hưởng nguyên lương theo quy định.</span>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </main>
+
+  <script>
+    lucide.createIcons();
+
+    // DỮ LIỆU MA TRẬN LỊCH 6 ĐỢT NGHỈ LỄ NĂM 2027
+    // offset: số ô trống đầu tháng (Thứ 2 = 0, Thứ 3 = 1, Thứ 4 = 2, Thứ 5 = 3, Thứ 6 = 4, Thứ 7 = 5, CN = 6)
+    const scheduleData = [
+      {
+        badge: "Đợt 1 / 6 • Tết Dương lịch",
+        lunarNote: "Chào năm mới 2027",
+        monthTitle: "THÁNG 01 / 2027",
+        totalDays: "03",
+        totalSub: "Ngày liên tục",
+        rangeText: "Thứ Sáu (01/01) – Chủ Nhật (03/01/2027)",
+        headerBg: "from-rose-600 to-orange-500",
+        accentText: "text-rose-600",
+        borderColor: "border-rose-500",
+        mainDotBg: "bg-rose-600",
+        pillBg: "bg-rose-600",
+        offset: 4, // 01/01/2027 là Thứ Sáu
+        daysInMonth: 31,
+        highlights: {
+          1: { type: "main", label: "Tết DL" },
+          2: { type: "sub", label: "Cuối tuần" },
+          3: { type: "sub", label: "Cuối tuần" }
+        }
+      },
+      {
+        badge: "Đợt 2 / 6 • Tết Nguyên đán",
+        lunarNote: "Xuân Đinh Mùi 2027",
+        monthTitle: "THÁNG 02 / 2027",
+        totalDays: "07",
+        totalSub: "Ngày liên tục",
+        rangeText: "Thứ Năm (04/02) – Thứ Tư (10/02/2027)",
+        headerBg: "from-amber-500 via-orange-500 to-red-600",
+        accentText: "text-amber-600",
+        borderColor: "border-amber-500",
+        mainDotBg: "bg-red-600",
+        pillBg: "bg-amber-600",
+        offset: 0, // 01/02/2027 là Thứ Hai
+        daysInMonth: 28,
+        highlights: {
+          4: { type: "main", label: "28 Tết" },
+          5: { type: "main", label: "29 Tết" },
+          6: { type: "main", label: "Mùng 1" },
+          7: { type: "main", label: "Mùng 2" },
+          8: { type: "main", label: "Mùng 3" },
+          9: { type: "sub", label: "Mùng 4 (Bù)" },
+          10: { type: "sub", label: "Mùng 5 (Bù)" }
+        }
+      },
+      {
+        badge: "Đợt 3 / 6 • Giỗ Tổ Hùng Vương",
+        lunarNote: "Mùng 10 tháng 3 Âm lịch",
+        monthTitle: "THÁNG 04 / 2027",
+        totalDays: "03",
+        totalSub: "Ngày liên tục",
+        rangeText: "Thứ Sáu (16/04) – Chủ Nhật (18/04/2027)",
+        headerBg: "from-emerald-600 to-teal-500",
+        accentText: "text-emerald-600",
+        borderColor: "border-emerald-500",
+        mainDotBg: "bg-emerald-600",
+        pillBg: "bg-emerald-600",
+        offset: 3, // 01/04/2027 là Thứ Năm
+        daysInMonth: 30,
+        highlights: {
+          16: { type: "main", label: "Giỗ Tổ" },
+          17: { type: "sub", label: "Cuối tuần" },
+          18: { type: "sub", label: "Cuối tuần" }
+        }
+      },
+      {
+        badge: "Đợt 4 / 6 • Lễ 30/4 & 1/5",
+        lunarNote: "Chuyển tiếp Tháng 4 & Tháng 5",
+        monthTitle: "THÁNG 04 – 05 / 2027",
+        totalDays: "04",
+        totalSub: "Ngày liên tục",
+        rangeText: "Thứ Sáu (30/04) – Thứ Hai (03/05/2027)",
+        headerBg: "from-sky-600 to-blue-600",
+        accentText: "text-sky-600",
+        borderColor: "border-sky-500",
+        mainDotBg: "bg-sky-600",
+        pillBg: "bg-sky-600",
+        // Chế độ hiển thị 3 tuần giao thoa cuối tháng 4 và đầu tháng 5/2027
+        customDays: [
+          { d: "19/4", w: 1 }, { d: "20/4", w: 2 }, { d: "21/4", w: 3 }, { d: "22/4", w: 4 }, { d: "23/4", w: 5 }, { d: "24/4", w: 6 }, { d: "25/4", w: 7 },
+          { d: "26/4", w: 1 }, { d: "27/4", w: 2 }, { d: "28/4", w: 3 }, { d: "29/4", w: 4 },
+          { d: "30/4", w: 5, type: "main", label: "Lễ 30/4" },
+          { d: "01/5", w: 6, type: "main", label: "Lễ 1/5" },
+          { d: "02/5", w: 7, type: "sub", label: "Chủ nhật" },
+          { d: "03/5", w: 1, type: "sub", label: "Nghỉ bù" },
+          { d: "04/5", w: 2 }, { d: "05/5", w: 3 }, { d: "06/5", w: 4 }, { d: "07/5", w: 5 }, { d: "08/5", w: 6 }, { d: "09/5", w: 7 }
+        ]
+      },
+      {
+        badge: "Đợt 5 / 6 • Lễ Quốc khánh",
+        lunarNote: "Tết Độc lập 2/9",
+        monthTitle: "THÁNG 09 / 2027",
+        totalDays: "04",
+        totalSub: "Ngày liên tục",
+        rangeText: "Thứ Năm (02/09) – Chủ Nhật (05/09/2027)",
+        headerBg: "from-red-600 to-rose-500",
+        accentText: "text-red-600",
+        borderColor: "border-red-500",
+        mainDotBg: "bg-red-600",
+        pillBg: "bg-red-600",
+        offset: 2, // 01/09/2027 là Thứ Tư
+        daysInMonth: 30,
+        highlights: {
+          2: { type: "main", label: "Quốc khánh" },
+          3: { type: "main", label: "Nghỉ lễ" },
+          4: { type: "sub", label: "Cuối tuần" },
+          5: { type: "sub", label: "Cuối tuần" }
+        }
+      },
+      {
+        badge: "Đợt 6 / 6 • Ngày Văn hóa Việt Nam",
+        lunarNote: "Nghỉ hưởng nguyên lương",
+        monthTitle: "THÁNG 11 / 2027",
+        totalDays: "01",
+        totalSub: "Ngày nghỉ lễ",
+        rangeText: "Thứ Tư, ngày 24/11/2027",
+        headerBg: "from-purple-600 to-indigo-600",
+        accentText: "text-purple-600",
+        borderColor: "border-purple-500",
+        mainDotBg: "bg-purple-600",
+        pillBg: "bg-purple-600",
+        offset: 0, // 01/11/2027 là Thứ Hai
+        daysInMonth: 30,
+        highlights: {
+          24: { type: "main", label: "Ngày Văn hóa" }
+        }
+      }
+    ];
+
+    let currentStep = -1;
+
+    function renderCalendar(stepIndex) {
+      if (stepIndex === currentStep) return;
+      currentStep = stepIndex;
+      const data = scheduleData[stepIndex];
+
+      // Hiệu ứng nháy nhẹ khung lịch khi chuyển tháng
+      const gridEl = document.getElementById("calendar-grid");
+      gsap.fromTo(gridEl, { opacity: 0.25, y: 8 }, { opacity: 1, y: 0, duration: 0.35, ease: "power2.out" });
+
+      // Cập nhật Header của tờ lịch
+      const headerEl = document.getElementById("cal-header");
+      headerEl.className = `bg-gradient-to-r ${data.headerBg} text-white p-5 sm:p-7 transition-all duration-500 relative overflow-hidden`;
+
+      document.getElementById("cal-badge").textContent = data.badge;
+      document.getElementById("cal-lunar-note").textContent = data.lunarNote;
+      document.getElementById("cal-month-title").textContent = data.monthTitle;
+
+      const totalNumEl = document.getElementById("cal-total-num");
+      totalNumEl.textContent = data.totalDays;
+      totalNumEl.className = `text-3xl sm:text-4xl font-black leading-none ${data.accentText}`;
+
+      document.getElementById("cal-total-sub").textContent = data.totalSub;
+      document.getElementById("cal-footer-range").textContent = data.rangeText;
+      document.getElementById("legend-main-dot").className = `w-3.5 h-3.5 rounded-md inline-block shadow-sm ${data.mainDotBg}`;
+
+      // Xóa lưới cũ và vẽ lưới mới
+      gridEl.innerHTML = "";
+
+      if (data.customDays) {
+        // Dành cho kỳ nghỉ giao thoa 30/4 - 1/5
+        data.customDays.forEach((item) => {
+          const cell = createCellHTML(item.d, item.type, item.label, data.mainDotBg);
+          gridEl.appendChild(cell);
+        });
+      } else {
+        // Ô trống đầu tháng
+        for (let i = 0; i < data.offset; i++) {
+          const empty = document.createElement("div");
+          empty.className = "h-14 sm:h-16 rounded-2xl bg-slate-50/60 border border-dashed border-slate-100";
+          gridEl.appendChild(empty);
+        }
+
+        // Các ngày trong tháng
+        for (let day = 1; day <= data.daysInMonth; day++) {
+          const hl = data.highlights[day];
+          const cell = createCellHTML(day, hl ? hl.type : null, hl ? hl.label : "", data.mainDotBg);
+          gridEl.appendChild(cell);
+        }
+      }
+
+      // Cập nhật trạng thái Active của các hộp chữ bên phải
+      document.querySelectorAll(".step-card").forEach((card, idx) => {
+        card.className = "step-card bg-white rounded-3xl p-6 sm:p-7 shadow-lg border-2 transition-all";
+        if (idx === stepIndex) {
+          card.classList.add("is-active", data.borderColor);
+        } else {
+          card.classList.add("border-transparent");
+        }
+      });
+
+      // Cập nhật thanh Quick Jump Pills
+      document.querySelectorAll(".nav-pill").forEach((pill, idx) => {
+        if (idx === stepIndex) {
+          pill.className = `nav-pill px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all text-white shadow-sm ${data.pillBg}`;
+        } else {
+          pill.className = "nav-pill px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all bg-white text-slate-600 border border-slate-200 hover:border-rose-300";
+        }
+      });
+    }
+
+    function createCellHTML(dayText, type, label, mainBgClass) {
+      const cell = document.createElement("div");
+      if (type === "main") {
+        cell.className = `day-cell day-holiday h-14 sm:h-16 rounded-2xl ${mainBgClass} text-white flex flex-col items-center justify-center p-1 relative z-10`;
+        cell.innerHTML = `
+          <span class="text-base sm:text-lg font-extrabold leading-none">${dayText}</span>
+          <span class="text-[10px] sm:text-[11px] font-semibold bg-black/20 px-1.5 py-0.5 rounded-full mt-1 truncate max-w-full">${label}</span>
+        `;
+      } else if (type === "sub") {
+        cell.className = "day-cell day-weekend-off h-14 sm:h-16 rounded-2xl bg-amber-100 border-2 border-amber-400 text-amber-950 flex flex-col items-center justify-center p-1 relative z-10";
+        cell.innerHTML = `
+          <span class="text-base sm:text-lg font-extrabold leading-none">${dayText}</span>
+          <span class="text-[10px] sm:text-[11px] font-bold text-amber-800 mt-1 truncate max-w-full">${label}</span>
+        `;
+      } else {
+        cell.className = "day-cell h-14 sm:h-16 rounded-2xl bg-slate-50 hover:bg-slate-100 text-slate-700 border border-slate-200/60 flex flex-col items-center justify-center p-1";
+        cell.innerHTML = `<span class="text-sm sm:text-base font-semibold">${dayText}</span>`;
+      }
+      return cell;
+    }
+
+    function scrollToStep(index) {
+      const target = document.querySelector(`.step-card[data-step="${index}"]`);
+      if (target) {
+        target.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
+    }
+
+    // Khởi tạo GSAP ScrollTrigger
+    gsap.registerPlugin(ScrollTrigger);
+
+    window.addEventListener("DOMContentLoaded", () => {
+      renderCalendar(0);
+
+      document.querySelectorAll(".step-card").forEach((card, index) => {
+        ScrollTrigger.create({
+          trigger: card,
+          start: "top 60%",
+          end: "bottom 40%",
+          onEnter: () => renderCalendar(index),
+          onEnterBack: () => renderCalendar(index)
+        });
+      });
+    });
+  </script>
+
+  <!-- Iframe Resizer hỗ trợ nhúng CMS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/iframe-resizer/4.3.9/iframeResizer.contentWindow.min.js"></script>
+</body>
+</html>
