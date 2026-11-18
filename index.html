@@ -1,0 +1,598 @@
+<!DOCTYPE html><html class="scroll-smooth" lang="vi" style="width: 1280px; height: 18428px; overflow: hidden; position: relative;"><head><style>
+@keyframes heroOrbFloat1 {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); opacity: 0.45; }
+  50% { transform: translate3d(-30px, 25px, 0) scale(1.15); opacity: 0.75; }
+}
+@keyframes heroOrbFloat2 {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); opacity: 0.4; }
+  50% { transform: translate3d(25px, -35px, 0) scale(1.2); opacity: 0.7; }
+}
+@keyframes heroAuroraShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+@keyframes heroShimmerWave {
+  0% { transform: rotate(0deg) scale(1); }
+  50% { transform: rotate(180deg) scale(1.1); }
+  100% { transform: rotate(360deg) scale(1); }
+}
+.hero-aurora-bg {
+  background-size: 200% 200%;
+  animation: heroAuroraShift 16s ease infinite;
+}
+.hero-orb-1 {
+  animation: heroOrbFloat1 9s ease-in-out infinite;
+}
+.hero-orb-2 {
+  animation: heroOrbFloat2 12s ease-in-out infinite;
+}
+.hero-shimmer {
+  animation: heroShimmerWave 22s linear infinite;
+}
+</style></head><body class="antialiased font-ui selection:bg-sky-500 selection:text-white"><svg aria-hidden="true" class="inline-defs-container" style="position:absolute;width:0;height:0;overflow:hidden"></svg>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>TẠO NGUỒN BÁC SĨ NỘI TRÚ CHO Y TẾ CHUYÊN SÂU | Interactive Scrollytelling</title>
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&amp;family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400&amp;family=Plus+Jakarta+Sans:wght@700;800;900&amp;display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            serif: ['Merriweather', 'serif'],
+            sans: ['"Be Vietnam Pro"', 'sans-serif'],
+            display: ['"Plus Jakarta Sans"', '"Be Vietnam Pro"', 'sans-serif'],
+          },
+          colors: {
+            cyanAqua: {
+              50: '#F0FDFA', 100: '#CCFBF1', 200: '#99F6E4', 300: '#5EEAD4',
+              400: '#2DD4BF', 500: '#14B8A6', 600: '#0D9488', 700: '#0F766E', 800: '#115E59', 900: '#134E4A'
+            },
+            ocean: {
+              50: '#F0F9FF', 100: '#E0F2FE', 200: '#BAE6FD', 300: '#7DD3FC',
+              400: '#38BDF8', 500: '#0EA5E9', 600: '#0284C7', 700: '#0369A1', 800: '#075985', 900: '#0C4A6E', 950: '#082F49'
+            }
+          }
+        }
+      }
+    }
+</script>
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+    body {
+      font-family: 'Merriweather', serif;
+      color: #0C4A6E;
+      background: linear-gradient(180deg, #E6F7FF 0%, #D8F2FB 15%, #EEF9FD 45%, #F0FDFE 75%, #E1F4FC 100%);
+      overflow-x: hidden;
+      min-height: 100vh;
+      line-height: 1.9;
+    }
+    .font-ui { font-family: 'Be Vietnam Pro', sans-serif; }
+    .font-display { font-family: 'Plus Jakarta Sans', sans-serif; }
+    
+    .glass-cyan-card {
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(224, 242, 254, 0.75) 50%, rgba(186, 230, 253, 0.85) 100%);
+      backdrop-filter: blur(16px);
+      border: 1.5px solid rgba(255, 255, 255, 0.9);
+      box-shadow: 0 20px 40px -15px rgba(2, 132, 199, 0.18), 0 0 0 1px rgba(56, 189, 248, 0.15);
+    }
+
+    .capped-stat-box {
+      border-radius: 1.5rem;
+      overflow: hidden;
+      background: #FFFFFF;
+      box-shadow: 0 15px 30px -10px rgba(2, 132, 199, 0.22);
+      border: 1px solid rgba(125, 211, 252, 0.4);
+      transition: transform 0.3s ease;
+    }
+    .capped-stat-box:hover { transform: translateY(-4px); }
+    .capped-stat-box .cap-header {
+      background: linear-gradient(90deg, #38BDF8 0%, #0EA5E9 100%);
+      color: #FFFFFF;
+      padding: 0.85rem 1.5rem;
+      text-align: center;
+      font-weight: 800;
+      font-size: 1.15rem;
+      letter-spacing: -0.01em;
+      box-shadow: 0 4px 10px rgba(14, 165, 233, 0.25);
+    }
+
+    .blob-3d-cyan {
+      position: absolute;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 30%, #BAE6FD 0%, #38BDF8 60%, #0284C7 100%);
+      box-shadow: inset 0 -8px 20px rgba(2, 132, 199, 0.6), 0 15px 35px rgba(2, 132, 199, 0.35);
+      pointer-events: none;
+    }
+    .blob-3d-ring {
+      position: absolute;
+      border-radius: 50%;
+      border: 18px solid rgba(125, 211, 252, 0.65);
+      box-shadow: inset 0 6px 14px rgba(255, 255, 255, 0.8), 0 12px 30px rgba(3, 105, 161, 0.25);
+      pointer-events: none;
+    }
+
+    @keyframes heroWaveFloatSlow1 {
+      0% { transform: translate3d(0, 0, 0) scaleY(1); }
+      50% { transform: translate3d(-20%, -18px, 0) scaleY(1.12); }
+      100% { transform: translate3d(0, 0, 0) scaleY(1); }
+    }
+    @keyframes heroWaveFloatSlow2 {
+      0% { transform: translate3d(-15%, -12px, 0) scaleY(1.08); }
+      50% { transform: translate3d(12%, 10px, 0) scaleY(0.92); }
+      100% { transform: translate3d(-15%, -12px, 0) scaleY(1.08); }
+    }
+    .hero-wave-stream {
+      animation: heroWaveFloatSlow1 28s ease-in-out infinite alternate !important;
+      will-change: transform;
+    }
+    ::-webkit-scrollbar { width: 9px; }
+    ::-webkit-scrollbar-track { background: #E0F2FE; }
+    ::-webkit-scrollbar-thumb {
+      background: linear-gradient(180deg, #38BDF8, #0284C7);
+      border-radius: 6px;
+    }
+</style>
+
+
+<!-- Floating 3D Background Ornaments -->
+<div class="fixed inset-0 pointer-events-none overflow-hidden z-0">
+<div class="blob-3d-ring w-48 h-48 -top-12 -left-12 opacity-50 blur-[1px]"></div>
+<div class="blob-3d-cyan w-36 h-36 top-24 -right-10 opacity-60"></div>
+<div class="blob-3d-ring w-64 h-64 top-[45%] -right-24 opacity-35"></div>
+<div class="blob-3d-cyan w-52 h-52 bottom-20 -left-20 opacity-40"></div>
+</div>
+<!-- Header Reading Progress Bar -->
+<header class="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-xl border-b border-sky-200 shadow-sm">
+<div class="h-1.5 w-full bg-sky-100 relative overflow-hidden">
+<div class="h-full bg-gradient-to-r from-cyan-400 via-sky-500 to-blue-600 transition-all duration-150" id="scrollProgress" style="width: 15%;"></div>
+</div>
+</header>
+<main class="relative z-10 pt-16">
+<!-- HERO BANNER SECTION -->
+
+<!-- LTS SAPO CARD -->
+<section class="relative z-10 mb-8 sm:mb-12 px-4 max-w-7xl mx-auto"><div class="relative rounded-3xl overflow-hidden shadow-2xl bg-gradient-to-br from-sky-950 via-sky-900 to-cyan-900 border-2 border-cyan-400/30 p-6 sm:p-10 lg:p-12 text-white" style="aspect-ratio: 16 / 9; width: 100%; min-height: unset; max-height: unset; height: auto; display: flex; flex-direction: column; justify-content: center;"><div class="absolute inset-0 bg-gradient-to-br from-sky-700 via-cyan-600 to-blue-800 hero-aurora-bg pointer-events-none"></div><div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,_var(--tw-gradient-stops))] from-cyan-300/40 via-sky-500/20 to-transparent pointer-events-none"></div><div class="absolute -right-20 -top-20 w-96 h-96 bg-cyan-300/40 rounded-full blur-3xl pointer-events-none hero-orb-1"></div><div class="absolute left-1/4 -bottom-24 w-80 h-80 bg-sky-300/40 rounded-full blur-2xl pointer-events-none hero-orb-2"></div><div class="absolute -left-16 -top-16 w-80 h-80 bg-blue-400/35 rounded-full blur-2xl pointer-events-none hero-orb-1" style="animation-delay: -3s;"></div><div class="blob-3d-ring w-72 h-72 -top-12 -right-12 opacity-40 blur-[1px] hero-shimmer pointer-events-none"></div><div class="absolute inset-0 bg-gradient-to-t from-sky-950/40 via-transparent to-cyan-500/10 pointer-events-none"></div><div class="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center"><div class="lg:col-span-6 space-y-5 text-left sm:pl-12"><h1 class="font-black text-white font-display tracking-tight leading-tight drop-shadow-md py-2"><span class="block pb-1 tracking-tight drop-shadow-md text-3xl sm:text-4xl lg:text-5xl font-black">TẠO NGUỒN</span><span class="block text-transparent bg-clip-text bg-gradient-to-r from-cyan-100 via-white to-sky-100 py-1.5 leading-tight drop-shadow text-5xl sm:text-6xl lg:text-7xl font-black">BÁC SĨ <br>NỘI TRÚ</span><span class="text-4xl sm:text-5xl lg:text-6xl block font-black font-serif italic pb-1 leading-tight text-transparent bg-clip-text bg-gradient-to-r from-amber-300 via-yellow-200 to-amber-400 drop-shadow-[0_2px_14px_rgba(251,191,36,0.55)] pt-6 mt-4">CHO Y TẾ CHUYÊN SÂU</span></h1></div><div class="lg:col-span-6 relative"><div class="grid grid-cols-2 gap-3.5 relative"><div class="space-y-3.5"><div class="rounded-2xl overflow-hidden shadow-xl border-2 border-white/30 aspect-[4/3] group relative"><img src="https://lh3.googleusercontent.com/aida-public/AB6AXuApT2abLJtd-HDQuuY3YDsxqAx0gwb8-75Yq82Nj8TWNd65A1wlIc-Nr7uUXUGpif2U7D_Yk2fcJ1slcnBLPoZaM8LCzUocmni6Es30hyvze4oqzrSa9ZKDpkafUSj-yM7Y3mGW_MequGIjf46W-DjS2fqK_DiwtGEilJ_58kpWs29OocH0LGv2MYdcfW7SN_3Lgg_3_mNUYoCmmCWn5Srg-rW87bim3oeZ_tXyKLouM5tDWLy9NEO8Qw" alt="Thí sinh tham dự kỳ thi tuyển sinh BSNT UMP" class="w-full h-full object-cover group-hover:scale-105 transition duration-500"><div class="absolute inset-0 bg-gradient-to-t from-sky-950/40 via-transparent to-transparent opacity-60 group-hover:opacity-30 transition"></div></div><div class="rounded-2xl overflow-hidden shadow-xl border-2 border-white/30 aspect-[4/3] group relative"><img src="https://lh3.googleusercontent.com/aida-public/AB6AXuCrwaLAi8MtfPq2nLtGozD3oEHfnPxIJIX5yLxN_wkOnE3eayr6E3K1bSX9fcjXGNT2-KWeNESQWtJEQ1wd6XndZvIHJb-FmjtUX7zIUoS8DXIPdoxYWsIqs-sBepMjilQCkfsr3FbFUul6mxE3FthQdZmTsLV_fvKTs1Bm2efZ_JN5Lm28o5jdICBWBSOhxG3oYbD8defR8oBrOuzbn9PMarAwA8P9B9IUJipG2aMAw9dETadh3rB3aQ" alt="Ca phẫu thuật chuyên sâu phối hợp các tuyến" class="w-full h-full object-cover group-hover:scale-105 transition duration-500"><div class="absolute inset-0 bg-gradient-to-t from-sky-950/40 via-transparent to-transparent opacity-60 group-hover:opacity-30 transition"></div></div></div><div class="flex flex-col justify-between gap-3.5"><div class="rounded-2xl overflow-hidden shadow-xl border-2 border-white/30 aspect-[3/4] group relative"><img src="https://lh3.googleusercontent.com/aida-public/AB6AXuCN1s4bDatZbz9_EgsV94bgrG84M8ZqZJHlMABvSOD51Nf3OYthbX6xqvAkV9dSepckeO7QBpQA77_jBn2DPA-OwM4bm5KTh4W7rMoSkJmVWbXLSrEMnBZMmzH2QIw6Dp7Fq3lqu40ALjIwEK2FMCi08Kh6pHkgHB0kN58zc10c-bdi6yGQ68Vw4oGmgXO98dqmU4DUI6ES-X5h1bgj1OzzrjB6fukdSmplXUbOvnb4emCJeukbohT4UQ" alt="Bác sĩ điều trị chăm sóc bệnh nhân nặng" class="w-full h-full object-cover group-hover:scale-105 transition duration-500"><div class="absolute inset-0 bg-gradient-to-t from-sky-950/40 via-transparent to-transparent opacity-60 group-hover:opacity-30 transition"></div></div></div></div></div></div></div></section><section class="relative z-10 px-4 -mt-4 mb-12 sm:mb-16">
+<div class="max-w-3xl mx-auto">
+<div class="relative bg-white/95 p-6 sm:p-10 rounded-3xl border-2 border-sky-200 shadow-xl shadow-sky-900/10 backdrop-blur-xl" style="background: linear-gradient(135deg, rgb(248, 250, 252) 0%, rgb(240, 249, 255) 50%, rgb(224, 242, 254) 100%); border: 1.5px solid rgb(186, 230, 253);">
+<p class="text-slate-800 text-lg sm:text-xl leading-relaxed font-serif italic" style="line-height: 1.9;"><strong class="text-sky-950 not-italic font-black font-ui uppercase tracking-wide text-2xl inline-block mr-1.5">LTS:</strong> <span class="text-xl sm:text-2xl text-slate-800 leading-relaxed font-serif italic">Bác sĩ nội trú (BSNT) là nguồn nhân lực được tuyển chọn khắt khe, đào tạo chuyên sâu qua thực hành lâm sàng cường độ cao. Đào tạo được BSNT đã khó, sử dụng đúng năng lực và tạo điều kiện để họ gắn bó lâu dài với y tế công lập càng khó hơn. Chính sách hỗ trợ BSNT năm 2026 của TPHCM đang góp phần gắn đầu tư cho bác sĩ trẻ với nhu cầu phát triển y tế chuyên sâu của thành phố.</span></p>
+</div>
+</div>
+</section>
+<!-- PHẦN 1: TRƯỞNG THÀNH TỪ "LÒ LUYỆN TINH HOA" -->
+<section class="py-16 sm:py-20 px-4 relative" id="phan-1">
+<div class="mx-auto space-y-10 max-w-3xl">
+<div class="space-y-6">
+<div class="relative rounded-3xl overflow-hidden shadow-2xl border-2 border-cyan-200/60 bg-gradient-to-br from-cyan-400 via-sky-500 to-blue-600 text-white flex flex-col justify-center items-center text-center py-5 sm:py-7 px-6 mx-auto shadow-sky-400/30" style="max-width: 1100px; width: 100%; min-height: 144px;">
+<div class="relative z-10 space-y-3 max-w-4xl mx-auto flex flex-col items-center py-1">
+<h2 class="flex flex-col items-center font-display drop-shadow-md"><span class="text-base sm:text-2xl font-black tracking-widest uppercase text-cyan-100 opacity-95 mb-1.5 drop-shadow">TRƯỞNG THÀNH TỪ</span><span class="text-4xl sm:text-7xl font-black text-white tracking-tight leading-tight drop-shadow-lg">“lò luyện tinh hoa”</span></h2>
+<div class="flex items-center gap-3 pt-1">
+<span class="w-12 h-0.5 bg-gradient-to-r from-transparent to-white rounded-full"></span>
+<span class="w-2.5 h-2.5 rounded-full bg-white shadow-sm"></span>
+<span class="w-12 h-0.5 bg-gradient-to-l from-transparent to-white rounded-full"></span>
+</div>
+</div>
+</div>
+<div class="max-w-2xl mx-auto px-4 py-2 font-serif text-center">
+<p class="text-xl sm:text-2xl font-bold italic text-sky-950 leading-relaxed drop-shadow-sm" style="line-height: 1.9;">
+            Ba năm học tập, thực hành giữa áp lực của những ca bệnh phức tạp là hành trình BSNT rèn giũa năng lực chuyên môn, bản lĩnh và trách nhiệm với người bệnh. BSNT được ví như là “tinh hoa” của ngành y, bởi họ phải vượt qua kỳ tuyển chọn khắt khe và được tôi luyện trong môi trường thực hành lâm sàng cường độ cao.
+          </p>
+</div>
+</div>
+<div class="space-y-8 leading-relaxed text-slate-800 font-serif text-lg sm:text-xl" style="line-height: 1.9;">
+<h3 class="text-3xl sm:text-4xl lg:text-5xl font-black text-sky-950 border-b-2 pb-3.5 border-sky-400 font-ui tracking-tight">
+          Áp lực tôi rèn bản lĩnh nghề y
+        </h3>
+<p>Tại TPHCM, có 3 cơ sở đào tạo BSNT gồm: Đại học Y Dược TPHCM, Trường Đại học Y khoa Phạm Ngọc Thạch và Trường Đại học Khoa học Sức khỏe (Đại học Quốc gia TPHCM). “BSNT là ước mơ của tôi từ lúc là sinh viên Trường Y Dược, Đại học Đà Nẵng”, BS Phan Diệp Gia Huy kể sau khi bảo vệ luận văn tốt nghiệp BSNT vào tháng 9-2026. Ba năm trước, với bằng tốt nghiệp đại học loại giỏi, Gia Huy bước vào kỳ thi chỉ có một cơ hội trong đời, rồi trúng tuyển BSNT chuyên ngành hồi sức cấp cứu của Đại học Y Dược TPHCM. Chặng đường BSNT gắn anh với Bệnh viện Chợ Rẫy suốt 3 năm.</p>
+<p>Hồi sức cấp cứu thuộc nhóm chuyên ngành khó thu hút nhân lực. Tại Bệnh viện Chợ Rẫy, nơi tiếp nhận nhiều ca bệnh nặng từ các tuyến chuyển về, áp lực giành giật sự sống cho người bệnh luôn thường trực. Gần như “chuyển hộ khẩu” vào bệnh viện, Phan Diệp Gia Huy vừa học lý thuyết, thực hành lâm sàng, trực đêm, vừa nghiên cứu khoa học và làm luận văn. Những ngày ấy, anh học được nhiều điều ngoài giáo trình. Anh nhớ nhất trường hợp một người phụ nữ sốc nhiễm trùng, suy đa cơ quan, hôn mê, cần điều trị chuyên sâu nhưng gia đình chỉ đủ khả năng trang trải chi phí trong 5 ngày. Khoa liên hệ Phòng Công tác xã hội tìm nhà hảo tâm, đồng thời ê-kíp tập trung kiểm soát nhiễm trùng, lọc máu và theo dõi sinh hiệu từng giờ.</p>
+<!-- Quote 1 -->
+<div class="my-6 p-6 sm:p-7 rounded-2xl bg-gradient-to-r from-sky-50 via-cyan-50/50 to-white border-l-4 border-cyan-500 shadow-md font-serif text-slate-800 relative">
+<div class="flex items-start gap-4">
+<div class="w-10 h-10 rounded-xl bg-cyan-500 text-white flex items-center justify-center flex-shrink-0 shadow-sm mt-0.5">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="quote" aria-hidden="true" class="lucide lucide-quote w-5 h-5"><path d="M16 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z"></path><path d="M5 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z"></path></svg>
+</div>
+<div class="space-y-2">
+<p class="italic text-sky-950 font-serif leading-relaxed text-xl sm:text-2xl font-semibold drop-shadow-sm">“Sau 4 ngày dài lo lắng, tình hình bệnh nhân cải thiện rõ rệt. Cô được chuyển ra phòng bệnh thường, gia đình cũng không còn lo phải dừng điều trị vì hết tiền. Từ đó, tôi hiểu rằng, phía sau người bệnh là cuộc sống của cả một gia đình. Ngoài chuyên môn, người thầy thuốc phải biết sẻ chia với gia đình có người thân ở ranh giới sinh tử”.</p>
+<div class="pt-1 flex items-center gap-2">
+<span class="w-6 h-0.5 bg-cyan-500 rounded-full inline-block"></span>
+<span class="text-xs sm:text-sm font-bold uppercase tracking-wider text-sky-800 font-ui not-italic">BS Phan Diệp Gia Huy đúc kết</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Ảnh BSNT Phan Diệp Gia Huy -->
+<figure class="my-10 rounded-2xl overflow-hidden bg-white/80 p-2 sm:p-3 border border-sky-100 shadow-md">
+<div class="overflow-hidden rounded-xl bg-slate-100">
+<img alt="BSNT Phan Diệp Gia Huy, Khoa Hồi sức tích cực, Bệnh viện Chợ Rẫy, điều trị cho bệnh nhân" class="w-full h-auto max-h-[550px] object-cover transition duration-300 hover:scale-[1.01] cursor-pointer" onclick="openLightbox(this.src, 'BSNT Phan Diệp Gia Huy, Khoa Hồi sức tích cực, Bệnh viện Chợ Rẫy, điều trị cho bệnh nhân. ẢNH: NVCC')" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCl0RNMAV5PKR5nDPh6M3Kxvm7WV2FwxgiYEzcukki9Y7v3XEclhRI5UwgA792waArdtAJP4xsMuEaNUlEO66ra6LSNkI_ThchCQedWlK3J3OYlV-6DZMFzEpScOSdtO2UHgn7Iv_h95wZqS18z-aMQI1PVArRqHRcZH-RYrmgrntW2OICDBWdaUxM4fKcqkOZCiIFWzzdSpZvw5b6mxiodFfLXC8KMKObV5SRt3C4_PAPz3_7R1ampdg">
+</div>
+<figcaption class="mt-3 px-2 py-1 text-sm text-slate-500 italic text-center flex items-center justify-center gap-1.5">
+<span>BSNT Phan Diệp Gia Huy, Khoa Hồi sức tích cực, Bệnh viện Chợ Rẫy, điều trị cho bệnh nhân. ẢNH: NVCC</span>
+</figcaption>
+</figure>
+<p>Cũng trưởng thành từ đào tạo BSNT, TS-BS Nguyễn Hoàng Bình, Trưởng khoa Ngoại lồng ngực, Bệnh viện Chợ Rẫy, nhớ lại “thời thanh niên sôi nổi”. Ba mươi năm trước, sau khi tốt nghiệp Đại học Y Dược TPHCM, anh trúng tuyển BSNT ngoại lồng ngực. Ngày ra mắt, bác sĩ trưởng khoa lúc bấy giờ nói vui: “Từ giờ, các cậu sẽ sống trong tâm thế của... nô lệ y khoa”. Chỉ một tuần theo guồng quay khám bệnh, làm thủ thuật, phụ mổ và cấp cứu, anh đã thấm thía câu nói ấy. Chứng kiến sự quyết đoán, đôi tay tài hoa của người thầy trong phòng mổ, anh càng khao khát trở thành phẫu thuật viên giỏi. Học bổng và thù lao phụ mổ giúp trang trải phần nào cuộc sống, anh gần như dành toàn bộ thời gian cho học và làm.</p>
+<!-- Quote 2 -->
+<div class="my-8 p-6 sm:p-8 rounded-2xl bg-gradient-to-r from-sky-50 via-cyan-50/50 to-white border-l-4 border-cyan-500 shadow-md font-serif text-slate-800 relative">
+<div class="flex items-start gap-4">
+<div class="w-10 h-10 rounded-xl bg-cyan-600 text-white flex items-center justify-center flex-shrink-0 shadow-sm mt-0.5">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="quote" aria-hidden="true" class="lucide lucide-quote w-5 h-5"><path d="M16 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z"></path><path d="M5 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z"></path></svg>
+</div>
+<div class="space-y-2.5">
+<p class="italic text-cyan-950 font-serif leading-relaxed text-2xl sm:text-3xl font-bold drop-shadow-sm">“Dù mỗi thời mỗi khác, sự dấn thân và hành trình khắc nghiệt của BSNT luôn có giá trị đặc biệt”.</p>
+<div class="pt-1 flex items-center gap-2">
+<span class="w-6 h-0.5 bg-cyan-500 rounded-full inline-block"></span>
+<span class="text-xs sm:text-sm font-bold uppercase tracking-wider text-sky-800 font-ui not-italic">TS-BS Nguyễn Hoàng Bình chiêm nghiệm</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Ảnh TS-BS Nguyễn Hoàng Bình -->
+<div class="my-10 rounded-3xl overflow-hidden border-2 border-sky-200 shadow-2xl bg-white cursor-pointer" onclick="openLightbox('https://lh3.googleusercontent.com/aida-public/AB6AXuCrbJ2kGHWqLoezgBf1-aVhgwB2iP6XuRQM4BJiaYCTSvGSpPy6QsXuiFDPM2TJj0hsyZjTWS2awKPQGAML1kbHSGM80HCrF8KX6erwXbfsC3mSiiy55IVJsSF_Rg5NV-YNuizMBuGMesWy2JjlO4hKjw109odqaBo8HjxKGrlTp-f51AMUGH9paj_Kd-NdEpEcIkWbl5w7wVQMeVo_qySZ7zBsVK1wk3bEGjj7u5tWi65RkrLfuwRGvQ', 'TS-BS Nguyễn Hoàng Bình (bên phải), Trưởng khoa Ngoại lồng ngực, Bệnh viện Chợ Rẫy, cùng ê-kíp thực hiện ca ghép phổi đầu tiên tại phía Nam')">
+<div class="relative group">
+<img alt="Ghép phổi Bệnh viện Chợ Rẫy" class="w-full h-[400px] sm:h-[480px] object-cover group-hover:scale-102 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCrbJ2kGHWqLoezgBf1-aVhgwB2iP6XuRQM4BJiaYCTSvGSpPy6QsXuiFDPM2TJj0hsyZjTWS2awKPQGAML1kbHSGM80HCrF8KX6erwXbfsC3mSiiy55IVJsSF_Rg5NV-YNuizMBuGMesWy2JjlO4hKjw109odqaBo8HjxKGrlTp-f51AMUGH9paj_Kd-NdEpEcIkWbl5w7wVQMeVo_qySZ7zBsVK1wk3bEGjj7u5tWi65RkrLfuwRGvQ">
+<div class="absolute bottom-4 right-4 bg-sky-950/80 backdrop-blur-md text-white px-4 py-2 rounded-full text-xs font-ui font-bold flex items-center gap-2">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="zoom-in" aria-hidden="true" class="lucide lucide-zoom-in text-cyan-400 w-4 h-4"><circle cx="11" cy="11" r="8"></circle><line x1="21" x2="16.65" y1="21" y2="16.65"></line><line x1="11" x2="11" y1="8" y2="14"></line><line x1="8" x2="14" y1="11" y2="11"></line></svg> Xem ảnh lớn
+            </div>
+</div>
+<div class="p-5 bg-sky-50 text-slate-800 font-serif italic text-sm border-t border-sky-100 flex items-start gap-3">
+<span><strong>[Chú thích ảnh]:</strong> TS-BS Nguyễn Hoàng Bình (bên phải), Trưởng khoa Ngoại lồng ngực, Bệnh viện Chợ Rẫy, cùng ê-kíp thực hiện ca ghép phổi đầu tiên tại phía Nam (ẢNH: NVCC)</span>
+</div>
+</div>
+<!-- VỊ TRÍ SAU HÌNH TS-BS NGUYỄN HOÀNG BÌNH: CỤM 2 ẢNH DÀNG NGANG TO FULL MÀN HÌNH -->
+<div class="w-screen relative left-1/2 -translate-x-1/2 px-4 md:px-8 max-w-[100vw] my-12">
+<div class="max-w-7xl mx-auto">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
+<!-- Ảnh 1: Áp lực điều trị cấp cứu -->
+<div class="bg-white rounded-3xl overflow-hidden shadow-xl border-2 border-sky-200/80 group cursor-pointer flex flex-col" onclick="openLightbox('https://lh3.googleusercontent.com/aida-public/AB6AXuA3-H7ucke3zH9LeFP2LijqpHM7_ebUsuKjQuCKSQ0L87i9KCV43il47RHWwmvkYi1QMMQZ12uwJt4gD0T_oiy35AytFgs2H2AZg50NmKytOH7ciX4E0_FwDIzNh0RXqy-FWnd509-vRjkDVvwDuaqNcQR1R4UgK3NP5jds969urcod_CWMoGTPiy969Se7WYrmZK3G6mr-z3Zl3ehj_ZCeVrPoxlNopyq-hUtKJcLGN7bL2NhtAfWCTA', 'Áp lực điều trị, cấp cứu cho bệnh nhân nặng và rất nặng tại Bệnh viện Chợ Rẫy góp phần rèn luyện bản lĩnh của BSNT. Ảnh: GIAO LINH')">
+<div class="relative overflow-hidden aspect-[16/10]">
+<img alt="Áp lực điều trị, cấp cứu tại Bệnh viện Chợ Rẫy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA3-H7ucke3zH9LeFP2LijqpHM7_ebUsuKjQuCKSQ0L87i9KCV43il47RHWwmvkYi1QMMQZ12uwJt4gD0T_oiy35AytFgs2H2AZg50NmKytOH7ciX4E0_FwDIzNh0RXqy-FWnd509-vRjkDVvwDuaqNcQR1R4UgK3NP5jds969urcod_CWMoGTPiy969Se7WYrmZK3G6mr-z3Zl3ehj_ZCeVrPoxlNopyq-hUtKJcLGN7bL2NhtAfWCTA">
+<div class="absolute inset-0 bg-gradient-to-t from-sky-950/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
+<span class="text-white text-xs font-bold font-ui flex items-center gap-1.5"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="zoom-in" aria-hidden="true" class="lucide lucide-zoom-in w-4 h-4 text-cyan-300"><circle cx="11" cy="11" r="8"></circle><line x1="21" x2="16.65" y1="21" y2="16.65"></line><line x1="11" x2="11" y1="8" y2="14"></line><line x1="8" x2="14" y1="11" y2="11"></line></svg> Phóng to ảnh</span>
+</div>
+</div>
+<div class="p-4 sm:p-5 bg-sky-50/90 border-t border-sky-100 flex-1 flex items-start gap-2.5">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="camera" aria-hidden="true" class="lucide lucide-camera w-5 h-5 text-sky-600 flex-shrink-0 mt-0.5"><path d="M13.997 4a2 2 0 0 1 1.76 1.05l.486.9A2 2 0 0 0 18.003 7H20a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h1.997a2 2 0 0 0 1.759-1.048l.489-.904A2 2 0 0 1 10.004 4z"></path><circle cx="12" cy="13" r="3"></circle></svg>
+<p class="text-sm sm:text-base font-serif italic text-slate-700 leading-relaxed">Áp lực điều trị, cấp cứu cho bệnh nhân nặng và rất nặng tại Bệnh viện Chợ Rẫy góp phần rèn luyện bản lĩnh của BSNT. Ảnh: GIAO LINH</p>
+</div>
+</div>
+<!-- Ảnh 2: Khoa Cấp cứu BV Chợ Rẫy -->
+<div class="bg-white rounded-3xl overflow-hidden shadow-xl border-2 border-sky-200/80 group cursor-pointer flex flex-col" onclick="openLightbox('https://lh3.googleusercontent.com/aida-public/AB6AXuCr2-NoGFgJLeTMrvIs_BrJ0Rb4CMKs6eSWg6LJlS6G8Yo1KrivIwuonLwWctMQmHYzsRV7w8REODAUvr76Ji83FreGVwSYHZW8oIPdHJABy6Vbl0Y3960K-DiFqsenkz0RDv3DfEa9jGcuqzIZNGUpZmE6xdiyPPb7RKdlp6FBgvFu84_FW0BffvPFxpTz9fTCfEAtVC9l-x-G27g1Li6DShNP6BJP9w7I1nLAZCe32eXwAxhlTpkf2A', 'Khoa Cấp cứu, Bệnh viện Chợ Rẫy. Ảnh: GIAO LINH')">
+<div class="relative overflow-hidden aspect-[16/10]">
+<img alt="Khoa Cấp cứu, Bệnh viện Chợ Rẫy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCr2-NoGFgJLeTMrvIs_BrJ0Rb4CMKs6eSWg6LJlS6G8Yo1KrivIwuonLwWctMQmHYzsRV7w8REODAUvr76Ji83FreGVwSYHZW8oIPdHJABy6Vbl0Y3960K-DiFqsenkz0RDv3DfEa9jGcuqzIZNGUpZmE6xdiyPPb7RKdlp6FBgvFu84_FW0BffvPFxpTz9fTCfEAtVC9l-x-G27g1Li6DShNP6BJP9w7I1nLAZCe32eXwAxhlTpkf2A">
+<div class="absolute inset-0 bg-gradient-to-t from-sky-950/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
+<span class="text-white text-xs font-bold font-ui flex items-center gap-1.5"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="zoom-in" aria-hidden="true" class="lucide lucide-zoom-in w-4 h-4 text-cyan-300"><circle cx="11" cy="11" r="8"></circle><line x1="21" x2="16.65" y1="21" y2="16.65"></line><line x1="11" x2="11" y1="8" y2="14"></line><line x1="8" x2="14" y1="11" y2="11"></line></svg> Phóng to ảnh</span>
+</div>
+</div>
+<div class="p-4 sm:p-5 bg-sky-50/90 border-t border-sky-100 flex-1 flex items-start gap-2.5">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="camera" aria-hidden="true" class="lucide lucide-camera w-5 h-5 text-sky-600 flex-shrink-0 mt-0.5"><path d="M13.997 4a2 2 0 0 1 1.76 1.05l.486.9A2 2 0 0 0 18.003 7H20a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h1.997a2 2 0 0 0 1.759-1.048l.489-.904A2 2 0 0 1 10.004 4z"></path><circle cx="12" cy="13" r="3"></circle></svg>
+<p class="text-sm sm:text-base font-serif italic text-slate-700 leading-relaxed">Khoa Cấp cứu, Bệnh viện Chợ Rẫy. Ảnh: GIAO LINH</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<h3 class="text-3xl sm:text-4xl lg:text-5xl font-black text-sky-950 border-b-2 pb-3.5 border-sky-400 font-ui pt-6 tracking-tight">
+          Sàng lọc khắt khe
+        </h3>
+<p>Sau 6 năm học y khoa, bác sĩ mới tốt nghiệp chưa đủ điều kiện hành nghề độc lập và có 3 hướng lựa chọn: thực hành 12 tháng để đáp ứng điều kiện cấp giấy phép hành nghề rồi đi làm; học thạc sĩ trong 1,5-2 năm; hoặc thi tuyển BSNT và tiếp tục đào tạo 3 năm. Dù lựa chọn hướng đi nào, bác sĩ trẻ cũng phải tiếp tục học tập, nâng cao trình độ chuyên môn. Trong đó, BSNT là chương trình đào tạo đặc thù, với quy trình tuyển chọn khắt khe và cường độ thực hành lâm sàng cao, trở thành “giấc mơ” của nhiều bác sĩ trẻ ngay từ khi còn ngồi trên ghế nhà trường. Quá trình gắn bó mật thiết với thực tiễn lâm sàng cũng tạo nên nét khác biệt của BSNT so với những loại hình đào tạo sau đại học khác như bác sĩ chuyên khoa I, II. Sau khi tốt nghiệp chương trình, BSNT được cấp 3 bằng: BSNT, bác sĩ chuyên khoa I và thạc sĩ y khoa. Đổi lại, trong khi bạn bè cùng khóa đã đi làm, ổn định cuộc sống, BSNT vẫn phải phụ thuộc kinh tế vào gia đình thêm 3 năm. Một số ít bệnh viện san sẻ gánh nặng này bằng khoản hỗ trợ khoảng 3 triệu đồng/tháng. Lựa chọn trở thành BSNT vì thế cũng là một sự đánh đổi.</p>
+<!-- 3 Hướng Lựa Chọn -->
+<div class="my-10 space-y-4 font-ui">
+<div class="text-center mb-6">
+<span class="px-3 py-1 bg-sky-100 text-sky-800 text-xs font-black rounded-full uppercase tracking-wider">
+              Sau 6 năm học y khoa, bác sĩ mới tốt nghiệp chưa đủ điều kiện hành nghề độc lập
+            </span>
+<h4 class="text-2xl sm:text-3xl font-black text-sky-950 mt-2 font-display uppercase tracking-tight">Có 3 hướng lựa chọn</h4>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+<div class="p-6 rounded-2xl bg-white border-2 border-sky-200 shadow-lg hover:shadow-xl transition-all">
+<div class="w-10 h-10 rounded-xl bg-sky-100 text-sky-700 flex items-center justify-center font-black text-lg mb-3">01</div>
+<h5 class="text-lg font-black text-sky-950 font-display">Thực hành 12 tháng</h5>
+<p class="text-xs font-bold text-sky-600 mt-1 uppercase tracking-wide">để đáp ứng điều kiện cấp giấy phép hành nghề</p>
+</div>
+<div class="p-6 rounded-2xl bg-white border-2 border-sky-200 shadow-lg hover:shadow-xl transition-all">
+<div class="w-10 h-10 rounded-xl bg-cyan-100 text-cyan-700 flex items-center justify-center font-black text-lg mb-3">02</div>
+<h5 class="text-lg font-black text-sky-950 font-display">Học Thạc sĩ</h5>
+<p class="text-xs font-bold text-cyan-600 mt-1 uppercase tracking-wide">Thời gian: 1,5 - 2 năm</p>
+</div>
+<div class="p-6 rounded-2xl bg-gradient-to-br from-sky-600 via-sky-700 to-cyan-600 text-white shadow-xl hover:shadow-2xl transition-all border-2 border-cyan-300">
+<div class="w-10 h-10 rounded-xl bg-white/20 text-white flex items-center justify-center font-black text-lg mb-3">03</div>
+<h5 class="text-lg font-black text-white font-display">Thi tuyển BSNT</h5>
+<p class="text-xs font-bold text-cyan-200 mt-1 uppercase tracking-wide">tiếp tục đào tạo 3 năm</p>
+</div>
+</div>
+</div>
+<p>Năm 2026, Đại học Y Dược TPHCM lần đầu đưa phỏng vấn vào tuyển sinh BSNT. Theo PGS-TS-BS Vương Thị Ngọc Lan, Phó hiệu trưởng, phỏng vấn giúp đánh giá khả năng giao tiếp, ứng xử, định hướng nghề nghiệp và mức độ phù hợp với chuyên ngành. Trường có 316 học viên BSNT hệ tập trung trúng tuyển thuộc 28 chuyên ngành; đông nhất là răng - hàm - mặt (40 người), ngoại - lồng ngực (22) và chẩn đoán hình ảnh (20).</p>
+<p>Tại Trường Đại học Y khoa Phạm Ngọc Thạch, thí sinh đăng ký chuyên ngành ngay khi nộp hồ sơ. Trường đào tạo 11 chuyên ngành, có 396 học viên trong giai đoạn 2023-2025. Năm 2026, trường tuyển 131 chỉ tiêu, tăng 21 so với năm trước; 437 thí sinh đăng ký, tỷ lệ chọi khoảng 3,3. Nhóm nội, ngoại, nhi có tỷ lệ 4,3-4,9, trong khi chẩn đoán hình ảnh, y học gia đình, truyền nhiễm chỉ 1,6-2,2. Năm 2025, nhãn khoa có 20 học viên, nội khoa 17, nhi khoa và sản phụ khoa cùng 15, nhưng truyền nhiễm chỉ có 1. Theo PGS-TS Trần Thị Khánh Tường, Trưởng khoa Y, Trường Đại học Y khoa Phạm Ngọc Thạch, ít thí sinh lựa chọn không có nghĩa là nhu cầu của xã hội với chuyên ngành đó không nhiều. Sự chênh lệch có thể liên quan đến cơ hội việc làm, thu nhập kỳ vọng, áp lực trực, nguy cơ nghề nghiệp và triển vọng phát triển.</p>
+<!-- CỤM 3 HÌNH THÍ SINH DÀN NGANG FULL CHIỀU NGANG MÀN HÌNH -->
+<div class="w-screen relative left-1/2 -translate-x-1/2 px-4 md:px-8 max-w-[100vw] my-12">
+<div class="max-w-7xl mx-auto">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-5 w-full">
+<div class="rounded-2xl overflow-hidden shadow-xl border-2 border-sky-200/80 bg-white group cursor-pointer" onclick="openLightbox('https://lh3.googleusercontent.com/aida-public/AB6AXuBYVNYyqIJiyWZPuR4jmzZqHzky64DdfKvPwNtO3tPPUGl9jlJSdwPhEaXexwggpbdqYq-gg3FCasmSQg-ewqENNAI2U0JGpW0sD5jzjnBSX7niq2N8eHMO1Ep9u1hPcTwYFM_boui_zyn5HYijyPlN_motH2BhfVilUsHo5IclsqHb_fgvIPbDUIfEL_3XfL4gS5GHgy5bQBhcinAFJHgdYT5EPXD-NEZghhlv3xazdmwsNSBg2Gp4og', 'Các thí sinh tham dự vòng phỏng vấn của kỳ tuyển sinh BSNT năm 2026 của Đại học Y Dược TPHCM (UMP). Nguồn ảnh UMP')">
+<div class="relative overflow-hidden aspect-[4/3]">
+<img alt="Thí sinh phỏng vấn BSNT UMP 1" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBYVNYyqIJiyWZPuR4jmzZqHzky64DdfKvPwNtO3tPPUGl9jlJSdwPhEaXexwggpbdqYq-gg3FCasmSQg-ewqENNAI2U0JGpW0sD5jzjnBSX7niq2N8eHMO1Ep9u1hPcTwYFM_boui_zyn5HYijyPlN_motH2BhfVilUsHo5IclsqHb_fgvIPbDUIfEL_3XfL4gS5GHgy5bQBhcinAFJHgdYT5EPXD-NEZghhlv3xazdmwsNSBg2Gp4og">
+<div class="absolute inset-0 bg-gradient-to-t from-sky-950/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
+<span class="text-white text-xs font-bold font-ui flex items-center gap-1.5"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="zoom-in" aria-hidden="true" class="lucide lucide-zoom-in w-4 h-4 text-cyan-300"><circle cx="11" cy="11" r="8"></circle><line x1="21" x2="16.65" y1="21" y2="16.65"></line><line x1="11" x2="11" y1="8" y2="14"></line><line x1="8" x2="14" y1="11" y2="11"></line></svg> Phóng to ảnh</span>
+</div>
+</div>
+</div>
+<div class="rounded-2xl overflow-hidden shadow-xl border-2 border-sky-200/80 bg-white group cursor-pointer" onclick="openLightbox('https://lh3.googleusercontent.com/aida-public/AB6AXuCryqcTnVy_yfOgqAfrV7lprvWIj5vRNGYxEw2CNDV2VIm6u7v4HIfsB0UhtmfidBQJFnWPGtji9jjllUN7mGLHqiWz3pV1ApiRPAyze2SJmd_ptii81oRar4UvjDHwb3uP4flbBS3sDar7DAWC1haQrD26jXjS3t5btyNJMahIwHh1LBmNY0vMumW9IQwrKM2RTNBwgiguuyFqY4W-hE3vXXi6zxJhPLWMlU7nOInxQHiOBOMj5cyxfA', 'Các thí sinh tham dự vòng phỏng vấn của kỳ tuyển sinh BSNT năm 2026 của Đại học Y Dược TPHCM (UMP). Nguồn ảnh UMP')">
+<div class="relative overflow-hidden aspect-[4/3]">
+<img alt="Thí sinh phỏng vấn BSNT UMP 2" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCryqcTnVy_yfOgqAfrV7lprvWIj5vRNGYxEw2CNDV2VIm6u7v4HIfsB0UhtmfidBQJFnWPGtji9jjllUN7mGLHqiWz3pV1ApiRPAyze2SJmd_ptii81oRar4UvjDHwb3uP4flbBS3sDar7DAWC1haQrD26jXjS3t5btyNJMahIwHh1LBmNY0vMumW9IQwrKM2RTNBwgiguuyFqY4W-hE3vXXi6zxJhPLWMlU7nOInxQHiOBOMj5cyxfA">
+<div class="absolute inset-0 bg-gradient-to-t from-sky-950/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
+<span class="text-white text-xs font-bold font-ui flex items-center gap-1.5"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="zoom-in" aria-hidden="true" class="lucide lucide-zoom-in w-4 h-4 text-cyan-300"><circle cx="11" cy="11" r="8"></circle><line x1="21" x2="16.65" y1="21" y2="16.65"></line><line x1="11" x2="11" y1="8" y2="14"></line><line x1="8" x2="14" y1="11" y2="11"></line></svg> Phóng to ảnh</span>
+</div>
+</div>
+</div>
+<div class="rounded-2xl overflow-hidden shadow-xl border-2 border-sky-200/80 bg-white group cursor-pointer" onclick="openLightbox('https://lh3.googleusercontent.com/aida-public/AB6AXuACTLrwqeOxA03QqYK_u_aiSATIFik1dQ5GaE-hInvCpPLmBcTZoTV_d5Vo0M9DurqUZmcGf_T76gsj4LqvAjDj_ucgUufAISZgNa7UnuDIvLNewbatSydS5jo0ZjZrd1GLNPJezSwRuI3JcKeSil8rMFSwWq3phI6LGydSbqaHf2CpOKi9kHh3IFjCz6p0FxzKcakHk_9EWz4l7KAbzcwOp1ZSQTt6cyEIEJQiKmLPEJJbR1FcYPmA3A', 'Các thí sinh tham dự vòng phỏng vấn của kỳ tuyển sinh BSNT năm 2026 của Đại học Y Dược TPHCM (UMP). Nguồn ảnh UMP')">
+<div class="relative overflow-hidden aspect-[4/3]">
+<img alt="Thí sinh phỏng vấn BSNT UMP 3" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuACTLrwqeOxA03QqYK_u_aiSATIFik1dQ5GaE-hInvCpPLmBcTZoTV_d5Vo0M9DurqUZmcGf_T76gsj4LqvAjDj_ucgUufAISZgNa7UnuDIvLNewbatSydS5jo0ZjZrd1GLNPJezSwRuI3JcKeSil8rMFSwWq3phI6LGydSbqaHf2CpOKi9kHh3IFjCz6p0FxzKcakHk_9EWz4l7KAbzcwOp1ZSQTt6cyEIEJQiKmLPEJJbR1FcYPmA3A">
+<div class="absolute inset-0 bg-gradient-to-t from-sky-950/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
+<span class="text-white text-xs font-bold font-ui flex items-center gap-1.5"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="zoom-in" aria-hidden="true" class="lucide lucide-zoom-in w-4 h-4 text-cyan-300"><circle cx="11" cy="11" r="8"></circle><line x1="21" x2="16.65" y1="21" y2="16.65"></line><line x1="11" x2="11" y1="8" y2="14"></line><line x1="8" x2="14" y1="11" y2="11"></line></svg> Phóng to ảnh</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Chú thích hình chung -->
+<div class="text-center mt-4 px-4">
+<p class="text-base sm:text-lg font-serif italic text-slate-700 flex items-center justify-center gap-2">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="camera" aria-hidden="true" class="lucide lucide-camera w-5 h-5 text-sky-600 not-italic flex-shrink-0"><path d="M13.997 4a2 2 0 0 1 1.76 1.05l.486.9A2 2 0 0 0 18.003 7H20a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h1.997a2 2 0 0 0 1.759-1.048l.489-.904A2 2 0 0 1 10.004 4z"></path><circle cx="12" cy="13" r="3"></circle></svg>
+<span>Các thí sinh tham dự vòng phỏng vấn của kỳ tuyển sinh Bác sĩ Nội trú năm 2026 tại Đại học Y Dược TP.HCM (UMP). Ảnh: UMP</span>
+</p>
+</div>
+</div>
+</div>
+<p>TS-BS Phạm Hữu Đoàn, Phó Giám đốc Bệnh viện Đa khoa Bà Rịa, đánh giá, điểm nổi bật của BSNT nằm ở tuyển chọn và đào tạo, nhất là cách vận dụng kiến thức trong thực hành. Trước một ca bệnh, người học phải biện luận chẩn đoán, lựa chọn xét nghiệm, căn cứ điều trị và nguy cơ cần theo dõi. Qua đó hình thành tư duy lâm sàng có hệ thống, thói quen đánh giá lại quyết định. Dù vậy, sau tốt nghiệp, BSNT vẫn phải chứng minh năng lực qua chất lượng công việc, tinh thần hợp tác và sự tận tâm với người bệnh.</p>
+<p>Chất lượng BSNT được hình thành từ mối liên kết giữa nhà trường và bệnh viện thực hành. Nhà trường bảo đảm chương trình, chuẩn đầu ra và đánh giá; bệnh viện tạo môi trường tiếp cận người bệnh, làm việc cùng đội ngũ chuyên gia và từng bước hoàn thiện năng lực nghề nghiệp. Theo TS-BS Châu Phú Thi, Trưởng phòng Tổ chức cán bộ, Bệnh viện Chợ Rẫy, trong 5 năm gần đây, mỗi năm bệnh viện tham gia đào tạo hơn 200 BSNT. Môi trường tuyến cuối giúp học viên rèn năng lực xử trí tình huống, phối hợp liên chuyên khoa, tuân thủ quy trình và tác phong nghề nghiệp. Nhưng để sử dụng, giữ nguồn nhân lực này cho y tế công lập còn cần thêm những điều kiện khác.</p>
+</div>
+</div>
+</section>
+<!-- BOX 1: ĐỀ XUẤT 2 HÌNH THỨC ĐÀO TẠO SAU ĐẠI HỌC CỦA BỘ Y TẾ -->
+<section class="relative z-10 px-4 my-12">
+<div class="max-w-3xl mx-auto">
+<div class="rounded-3xl p-6 sm:p-8 text-white shadow-2xl border border-sky-400/30" style="background: linear-gradient(135deg, rgb(240, 249, 255) 0%, rgb(226, 244, 253) 60%, rgb(216, 240, 250) 100%); border: 1.5px solid rgb(186, 230, 253); box-shadow: rgba(2, 132, 199, 0.12) 0px 15px 30px -10px;">
+<div class="flex items-center gap-2 text-sky-800 text-xs font-black uppercase tracking-wider mb-3">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="file-text" aria-hidden="true" class="lucide lucide-file-text w-5 h-5 text-cyan-600"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z"></path><path d="M14 2v5a1 1 0 0 0 1 1h5"></path><path d="M10 9H8"></path><path d="M16 13H8"></path><path d="M16 17H8"></path></svg>
+<span>ĐỊNH HƯỚNG CHÍNH SÁCH MỚI CỦA BỘ Y TẾ</span>
+</div>
+<p class="text-base sm:text-lg leading-relaxed text-slate-800 font-serif" style="line-height: 1.85;">Bộ Y tế đang xây dựng dự thảo thông tư về đào tạo chuyên sâu sau đại học trong lĩnh vực sức khỏe với 2 hình thức được đề xuất là <strong class="text-sky-950 font-black text-lg sm:text-xl underline decoration-sky-400 decoration-2">đào tạo BSNT</strong> (cho bác sĩ mới tốt nghiệp) và <strong class="text-sky-950 font-black text-lg sm:text-xl underline decoration-sky-400 decoration-2">đào tạo bác sĩ chuyên khoa</strong> (cho bác sĩ đã có giấy phép hành nghề). Dự thảo cũng đề xuất đánh giá năng lực hành nghề sau năm học thứ nhất; học viên không đạt sau 2 lần kiểm tra liên tiếp có thể phải thôi học. Mô hình đào tạo mới dự kiến sẽ không còn quy định riêng tên văn bằng <strong class="text-sky-950 font-black text-lg sm:text-xl">CK1 và CK2</strong>. Thông tư dự kiến có hiệu lực từ ngày <strong class="text-sky-950 font-black text-lg sm:text-xl">1-1-2027</strong>.</p>
+</div>
+</div>
+</section>
+<!-- KHỐI INFOGRAPHIC: NHÂN LỰC BÁC SĨ NỘI TRÚ TẠI TPHCM -->
+<section class="py-12 sm:py-16 px-4" id="tong-quan">
+<div class="max-w-6xl mx-auto">
+<div class="text-center max-w-4xl mx-auto mb-10 sm:mb-14">
+<div class="inline-block relative px-6 sm:px-10 py-3">
+<div class="w-24 sm:w-32 h-1 bg-gradient-to-r from-transparent via-sky-600 to-transparent mx-auto mb-4 rounded-full"></div>
+<h2 class="text-3xl sm:text-5xl lg:text-6xl font-black text-sky-950 uppercase tracking-tight font-display drop-shadow leading-tight">NHÂN LỰC BÁC SĨ NỘI TRÚ TẠI TPHCM</h2>
+<div class="w-24 sm:w-32 h-1 bg-gradient-to-r from-transparent via-cyan-500 to-transparent mx-auto mt-4 rounded-full"></div>
+</div>
+</div>
+<div class="bg-gradient-to-br from-sky-50/90 via-white/95 to-cyan-50/90 rounded-3xl p-6 sm:p-12 border-2 border-sky-200/60 shadow-2xl relative overflow-hidden font-ui">
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-6 relative z-10 items-start"><div class="flex flex-col items-center text-center group"><div class="mb-4 z-10 relative bg-white/95 rounded-2xl p-4 sm:p-5 w-full border border-sky-200 shadow-md"><span class="text-4xl sm:text-5xl font-black text-sky-800 font-display tracking-tight block">2018 - 2024</span><p class="text-lg sm:text-xl text-slate-800 font-serif leading-relaxed mt-2.5 px-1">Khoảng <strong class="text-sky-950 font-ui font-black text-xl sm:text-2xl bg-sky-100 px-1.5 py-0.5 rounded">1.500 BSNT</strong> tốt nghiệp từ 2 trường y lớn. <strong class="text-sky-950 font-ui font-black text-xl sm:text-2xl bg-sky-100 px-1.5 py-0.5 rounded">417 BSNT (~28%)</strong> được tuyển vào y tế công lập Sở Y tế TPHCM.</p></div><div class="relative w-28 h-28 my-2 transition-transform duration-300 group-hover:scale-110 drop-shadow-xl flex items-center justify-center flex-shrink-0"><svg class="w-full h-full filter drop-shadow-md" viewBox="0 0 120 120"><polygon fill="#F0F9FF" points="60,4 110,32 110,88 60,116 10,88 10,32" stroke="#0369A1" stroke-linejoin="round" stroke-width="8"></polygon><polygon fill="#FFFFFF" points="60,14 100,37 100,83 60,106 20,83 20,37" stroke="#BAE6FD" stroke-linejoin="round" stroke-width="2.5"></polygon></svg><div class="absolute inset-0 flex items-center justify-center text-sky-700"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="cross" aria-hidden="true" class="lucide lucide-cross w-8 h-8"><path d="M4 9a2 2 0 0 0-2 2v2a2 2 0 0 0 2 2h4a1 1 0 0 1 1 1v4a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2v-4a1 1 0 0 1 1-1h4a2 2 0 0 0 2-2v-2a2 2 0 0 0-2-2h-4a1 1 0 0 1-1-1V4a2 2 0 0 0-2-2h-2a2 2 0 0 0-2 2v4a1 1 0 0 1-1 1z"></path></svg></div></div></div><div class="flex flex-col items-center text-center group lg:pt-14"><div class="mb-4 z-10 relative bg-white/95 rounded-2xl p-4 sm:p-5 w-full border border-sky-200 shadow-md"><p class="text-lg sm:text-xl text-slate-800 font-serif leading-relaxed mt-1 px-1"><strong class="text-teal-950 font-ui font-black text-2xl sm:text-3xl bg-teal-100 px-2 py-0.5 rounded inline-block mb-1">736 BSNT</strong><br>đang công tác tại các bệnh viện đa khoa và chuyên khoa tuyến cuối của TPHCM, đảm trách điều trị chuyên sâu.</p></div><div class="relative w-28 h-28 my-2 transition-transform duration-300 group-hover:scale-110 drop-shadow-xl flex items-center justify-center flex-shrink-0"><svg class="w-full h-full filter drop-shadow-md" viewBox="0 0 120 120"><polygon fill="#ECFDF5" points="60,4 110,32 110,88 60,116 10,88 10,32" stroke="#0D9488" stroke-linejoin="round" stroke-width="8"></polygon><polygon fill="#FFFFFF" points="60,14 100,37 100,83 60,106 20,83 20,37" stroke="#99F6E4" stroke-linejoin="round" stroke-width="2.5"></polygon></svg><div class="absolute inset-0 flex items-center justify-center text-teal-600"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="shield-check" aria-hidden="true" class="lucide lucide-shield-check w-8 h-8"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path><path d="m9 12 2 2 4-4"></path></svg></div></div></div><div class="flex flex-col items-center text-center group"><div class="relative w-28 h-28 my-2 transition-transform duration-300 group-hover:scale-110 drop-shadow-xl flex items-center justify-center flex-shrink-0 order-2 lg:order-1"><svg class="w-full h-full filter drop-shadow-md" viewBox="0 0 120 120"><polygon fill="#F0FDFA" points="60,4 110,32 110,88 60,116 10,88 10,32" stroke="#0284C7" stroke-linejoin="round" stroke-width="8"></polygon><polygon fill="#FFFFFF" points="60,14 100,37 100,83 60,106 20,83 20,37" stroke="#7DD3FC" stroke-linejoin="round" stroke-width="2.5"></polygon></svg><div class="absolute inset-0 flex items-center justify-center text-sky-600"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="check-circle-2" aria-hidden="true" class="lucide lucide-check-circle-2 w-8 h-8"><circle cx="12" cy="12" r="10"></circle><path d="m16 9-5.5 5.5L8 12"></path></svg></div></div><div class="mb-4 z-10 relative bg-white/95 rounded-2xl p-4 sm:p-5 w-full order-1 lg:order-2 lg:mt-3 border border-sky-200 shadow-md"><span class="text-4xl sm:text-5xl font-black text-sky-600 font-display tracking-tight block">2026 - 2029</span><p class="text-lg sm:text-xl text-slate-800 font-serif leading-relaxed mt-2.5 px-1">Đến 11-11-2026: <strong class="text-sky-950 font-ui font-black text-xl sm:text-2xl bg-sky-100 px-1.5 py-0.5 rounded">21 bệnh viện</strong> công bố nhu cầu thu hút gần <strong class="text-sky-950 font-ui font-black text-xl sm:text-2xl bg-sky-100 px-1.5 py-0.5 rounded">450 BSNT</strong> khóa 2026-2029.</p></div></div><div class="flex flex-col items-center text-center group lg:pt-14"><div class="relative w-28 h-28 my-2 transition-transform duration-300 group-hover:scale-110 drop-shadow-xl flex items-center justify-center flex-shrink-0 order-2 lg:order-1"><svg class="w-full h-full filter drop-shadow-md" viewBox="0 0 120 120"><polygon fill="#F0F9FF" points="60,4 110,32 110,88 60,116 10,88 10,32" stroke="#0C4A6E" stroke-linejoin="round" stroke-width="8"></polygon><polygon fill="#FFFFFF" points="60,14 100,37 100,83 60,106 20,83 20,37" stroke="#38BDF8" stroke-linejoin="round" stroke-width="2.5"></polygon></svg><div class="absolute inset-0 flex items-center justify-center text-sky-900"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="activity" aria-hidden="true" class="lucide lucide-activity w-8 h-8"><path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2"></path></svg></div></div><div class="mb-4 z-10 relative bg-white/95 rounded-2xl p-4 sm:p-5 w-full order-1 lg:order-2 lg:mt-3 border border-sky-200 shadow-md"><span class="text-4xl sm:text-5xl font-black text-sky-950 font-display tracking-tight block">2025 - 2030</span><p class="text-lg sm:text-xl text-slate-800 font-serif leading-relaxed mt-2.5 px-1">TPHCM dự báo cần khoảng <strong class="text-sky-950 font-ui font-black text-xl sm:text-2xl bg-sky-100 px-1.5 py-0.5 rounded">655 BSNT</strong> thuộc <strong class="text-sky-950 font-ui font-black text-xl sm:text-2xl bg-sky-100 px-1.5 py-0.5 rounded">33 chuyên ngành</strong> để kiện toàn mạng lưới y tế kỹ thuật cao.</p></div></div></div>
+</div>
+</div>
+</section>
+<!-- PHẦN 2: GIỮ NGƯỜI TÀI BẰNG CƠ HỘI PHÁT TRIỂN -->
+<section class="py-16 sm:py-24 px-4 relative" id="phan-2">
+<div class="mx-auto space-y-10 max-w-3xl">
+<div class="relative rounded-3xl overflow-hidden shadow-2xl border-2 border-sky-300/40 bg-gradient-to-br from-cyan-600 via-sky-600 to-sky-900 text-white flex flex-col justify-center items-center text-center py-4 sm:py-6 px-6 mx-auto" style="max-width: 1100px; width: 100%; min-height: 144px;">
+<div class="relative z-10 space-y-3 max-w-4xl mx-auto flex flex-col items-center py-1">
+<h2 class="text-3xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight leading-tight font-display drop-shadow-md">GIỮ NGƯỜI TÀI<span class="block text-2xl sm:text-4xl lg:text-5xl font-extrabold text-cyan-200 mt-2 sm:mt-3 tracking-normal drop-shadow-md">bằng cơ hội phát triển</span></h2>
+<div class="flex items-center gap-3 pt-1">
+<span class="w-12 h-0.5 bg-gradient-to-r from-transparent to-cyan-300 rounded-full"></span>
+<span class="w-2.5 h-2.5 rounded-full bg-cyan-300 shadow-sm"></span>
+<span class="w-12 h-0.5 bg-gradient-to-l from-transparent to-cyan-300 rounded-full"></span>
+</div>
+</div>
+</div>
+<div class="max-w-2xl mx-auto px-4 py-2 font-serif text-center">
+<p class="text-xl sm:text-2xl font-bold italic text-sky-950 leading-relaxed drop-shadow-sm" style="line-height: 1.9;">
+          Từ tháng 8-2026, TPHCM đã ban hành chính sách hỗ trợ học phí, sinh hoạt phí cho bác sĩ nội trú (BSNT), ưu tiên những chuyên ngành khó thu hút nhằm tạo nguồn nhân lực y tế chuyên sâu. Tuy nhiên, tuyển dụng được bác sĩ, bố trí đúng chuyên môn và tạo điều kiện để họ phát triển nghề nghiệp, gắn bó lâu dài vẫn là những yêu cầu đặt ra trong quá trình thực hiện chính sách.
+        </p>
+</div>
+<div class="space-y-8 leading-relaxed text-slate-800 font-serif text-lg sm:text-xl" style="line-height: 1.9;">
+<h3 class="text-3xl sm:text-4xl lg:text-5xl font-black text-sky-950 border-b-2 pb-3.5 border-sky-400 font-ui tracking-tight">
+          Nơi cần bác sĩ vẫn khó tuyển
+        </h3>
+<p>Tháng 10-2025, BS Trần Tuấn Kiệt hoàn thành chương trình BSNT tại Trường Đại học Y Dược Cần Thơ. "Hành trình nội trú trải qua 3 giai đoạn: Thầy làm - trò nhìn; thầy làm - trò làm; rồi trò làm - thầy nhìn. Khi nào trò làm mà thầy yên tâm đi ngủ là thành tài”, anh chia sẻ. Với tấm bằng BSNT, anh có nhiều cơ hội việc làm nhưng chọn về gần nhà, công tác tại Bệnh viện Đa khoa Vũng Tàu. Anh lý giải, nhu cầu điều trị chấn thương do tai nạn giao thông, tai nạn lao động tại khu vực này ngày càng tăng, trong khi bệnh viện thiếu bác sĩ chấn thương chỉnh hình. Vì thế, anh chọn nơi người bệnh đang cần mình. Từng được thầy hướng dẫn, dìu dắt trong những năm học BSNT, giờ đây anh tự tin đảm đương công việc chuyên môn, thực hiện các kỹ thuật như phẫu thuật xâm lấn tối thiểu, ứng dụng in 3D, phẫu thuật không garo và tham gia báo cáo tại những hội nghị chuyên ngành trong nước, quốc tế.</p>
+<!-- Ảnh Tu nghiệp BS Trần Tuấn Kiệt -->
+<div class="w-screen relative left-1/2 -translate-x-1/2 px-4 md:px-8 max-w-[100vw] my-14"></div>
+<p>BS Trần Tuấn Kiệt là một trong 2 BSNT mà Bệnh viện Đa khoa Vũng Tàu tuyển dụng được trong những năm qua. Theo BS-CK2 Lâm Tuấn Tú, Giám đốc bệnh viện, dù rất cần nhân lực chất lượng cao, đơn vị vẫn gặp khó trong thu hút BSNT. Ông thẳng thắn nhìn nhận, thu nhập là một trong những rào cản khiến bệnh viện công khó thu hút, giữ chân đội ngũ bác sĩ này. Là nguồn nhân lực chất lượng cao, gánh vác khối lượng công việc lớn nhưng mức lương của BSNT ở bệnh viện công chưa tương xứng (lương khởi điểm theo hệ số là 2.67). Trong khi đó, y tế ngoài công lập có chính sách linh hoạt hơn về thu nhập, thưởng và thỏa thuận công việc.</p>
+<!-- Box Trích Sở Y tế -->
+<div class="my-10 text-white rounded-3xl p-6 sm:p-8 shadow-2xl font-ui border border-sky-400/30" style="background: linear-gradient(135deg, rgb(240, 249, 255) 0%, rgb(224, 242, 254) 55%, rgb(230, 244, 250) 100%); border: 1.5px solid rgb(186, 230, 253); box-shadow: rgba(2, 132, 199, 0.12) 0px 15px 30px -10px;">
+<div class="flex items-center space-x-2 text-sky-800 font-black text-xs uppercase tracking-wider mb-3">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="alert-circle" aria-hidden="true" class="lucide lucide-alert-circle w-5 h-5 text-cyan-600"><circle cx="12" cy="12" r="10"></circle><line x1="12" x2="12" y1="8" y2="12"></line><line x1="12" x2="12.01" y1="16" y2="16"></line></svg>
+<span>THỰC TRẠNG PHÂN BỔ NHÂN LỰC</span>
+</div>
+<p class="text-lg sm:text-xl leading-relaxed text-slate-900 font-serif font-semibold" style="line-height: 1.85;">
+<strong class="text-sky-950 font-bold">Theo Sở Y tế TPHCM, giai đoạn 2018-2024, trong khoảng 1.500 BSNT tốt nghiệp từ các trường y lớn trên địa bàn, chỉ 417 người (28%) được tuyển vào những cơ sở y tế công lập trực thuộc sở. Sau sáp nhập, TPHCM có hơn 25.000 bác sĩ, trong đó đội ngũ được đào tạo BSNT chiếm khoảng 10%-12% tổng số bác sĩ tại các bệnh viện công lập. Nhiều chuyên ngành có cường độ làm việc cao, đòi hỏi kỹ thuật chuyên sâu vẫn khó thu hút nhân lực, do chính sách đãi ngộ sau tốt nghiệp còn hạn chế, sự phối hợp giữa cơ sở đào tạo và nơi sử dụng chưa chặt chẽ.</strong>
+</p>
+</div>
+<p>Sau khi HĐND TPHCM ban hành Nghị quyết 36/2026/NQ-HĐND ngày 27-8-2026 về chính sách đặc thù hỗ trợ đào tạo BSNT đáp ứng nhu cầu phát triển chuyên sâu của ngành y tế thành phố, Sở Y tế đã yêu cầu các bệnh viện công lập rà soát, công khai nhu cầu tuyển dụng theo số lượng và chuyên ngành để học viên định hướng nơi công tác sau tốt nghiệp. Theo PGS-TS-BS Tăng Chí Thượng, Giám đốc Sở Y tế TPHCM, việc thu hút BSNT phải gắn với định hướng phát triển chuyên môn, quy mô hoạt động và vị trí việc làm của từng bệnh viện, ưu tiên những chuyên ngành thiếu nhân lực, khó tuyển dụng hoặc cần phát triển kỹ thuật chuyên sâu. Qua đó, từng bước khắc phục tình trạng mất cân đối nhân lực giữa các chuyên khoa, giữa bệnh viện tuyến cuối và cơ sở khám chữa bệnh ở địa bàn xa trung tâm.</p><div class="my-10 grid grid-cols-1 md:grid-cols-2 gap-8 justify-items-center"><div class="flex flex-col items-center"><div class="w-80 h-80 md:w-96 md:h-96 rounded-full overflow-hidden relative group cursor-pointer"><img alt="Phẫu thuật phối hợp BV Gia Định và BV Vũng Tàu" class="w-full aspect-square rounded-full object-cover border-4 border-cyan-400/40 shadow-lg transition duration-500 group-hover:scale-105" onclick="openLightbox(this.src, this.alt)" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAON1iFix1InkwmWdZI4QQV9_1k8Bs9ypN-wc4AAcoUxG5qn7jgm4pklmJ1EIIBjbCzXFDoLjm4kS9oLligU7ktovmk0lhwlpdIfvUZbuMM4ky-fOks07GrF6n7L404i8GvGdWHFPM5aoWTdLpZy-aFNgQWdcZaiX4tXXAL-mrSr49tEs_8QEEyrp-Ia-Ct-S0vG36Hg3n5mXrQvwWTSPUbjPS77EHD2MwSFgDLYCf_zhmqIbQX4lrF1Q"></div><p class="text-center text-xs md:text-sm text-cyan-900 mt-3 max-w-sm italic">Các bác sĩ Bệnh viện Nhân Dân Gia Định phối hợp Bệnh viện Đa khoa Vũng Tàu (TPHCM) thực hiện một ca phẫu thuật. Ảnh: BVCC</p></div><div class="flex flex-col items-center"><div class="w-80 h-80 md:w-96 md:h-96 rounded-full overflow-hidden relative group cursor-pointer"><img alt="BV Nhân dân Gia Định điều trị bệnh nhân nguy kịch" class="w-full aspect-square rounded-full object-cover border-4 border-cyan-400/40 shadow-lg transition duration-500 group-hover:scale-105" onclick="openLightbox(this.src, this.alt)" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD0pG4FIXHUfiCxfs6yGTelDKpKvlpNr7eS9pymm9yYH2ktUgAKFRmGPWYvbwx2j4Efq-jHHX2kNiz0bJN5xs1jG5DuVVFPLJnta6C1yplKwhbwa4QxtF_RolMMLJ2p3uuLYj4KLxr4OHRaO4IBdGH9D4YeRQWNpwVdgGpRqEy3HEGWQJOD6w-J1h0KR_weRk1gscSEUvrZJWZQtYua4pyl_i1HlngvB2XkwXgu7H2G-hlI0gh2Oi1GUQ"></div><p class="text-center text-xs md:text-sm text-cyan-900 mt-3 max-w-sm italic">Bệnh viện Nhân dân Gia Định điều trị thành công cho một bệnh nhân nguy kịch. Ảnh: BVCC</p></div></div>
+<h3 class="text-3xl sm:text-4xl lg:text-5xl font-black text-sky-950 border-b-2 pb-3.5 border-sky-400 font-ui pt-6 tracking-tight">
+          Cam kết 6 năm, tạo cơ hội gắn bó
+        </h3>
+<p>Nghị quyết 36 thể hiện định hướng chủ động đầu tư đội ngũ bác sĩ chuyên sâu ngay từ khâu đào tạo, thay vì chờ phát sinh nhu cầu mới bổ sung nhân lực. PGS-TS-BS Tăng Chí Thượng thông tin, BSNT được lựa chọn được hỗ trợ 100% học phí thực tế, tối đa 100 triệu đồng/người/năm học. Thành phố dự kiến hỗ trợ khoảng 400 BSNT/năm, kinh phí khoảng 40 tỷ đồng. Với chuyên ngành khó thu hút như tâm thần, giải phẫu bệnh, lao và bệnh phổi, hồi sức cấp cứu, gây mê hồi sức ngoại thần kinh và sọ não..., học viên còn được hỗ trợ sinh hoạt phí bằng 2 lần mức lương tối thiểu vùng I trong thời gian đào tạo. Khoảng 80 BSNT dự kiến nhận hỗ trợ này, tương đương 10,2 tỷ đồng/năm. Tổng kinh phí thực hiện chính sách tối đa gần 50,2 tỷ đồng/năm. Theo PGS-TS-BS Tăng Chí Thượng, khoản hỗ trợ này có thể tạo động lực để bác sĩ trẻ lựa chọn những chuyên ngành từng khiến họ đắn đo vì áp lực tài chính hoặc triển vọng nghề nghiệp. Người hưởng hỗ trợ phải chấp hành phân công công tác, cam kết làm việc tối thiểu 6 năm tại cơ sở khám chữa bệnh công lập trực thuộc Sở Y tế; trường hợp vi phạm cam kết phải hoàn trả kinh phí theo quy định. Cam kết cần được nhìn từ 2 phía: thành phố kỳ vọng sự cống hiến của bác sĩ được ngân sách hỗ trợ, còn cơ sở y tế phải tạo môi trường để BSNT muốn gắn bó. Ngoài thu nhập, bác sĩ cần cơ hội nghiên cứu, tiếp cận kỹ thuật mới, được ghi nhận năng lực và có lộ trình nghề nghiệp.</p>
+<!-- Hộp Kinh phí NQ 36 -->
+<div class="my-10 bg-white/90 rounded-3xl p-6 sm:p-8 border-2 border-sky-200 shadow-2xl font-ui">
+<div class="text-center max-w-2xl mx-auto mb-8">
+<span class="px-3.5 py-1 bg-gradient-to-r from-sky-600 to-cyan-500 text-white text-xs font-black rounded-full uppercase tracking-wider shadow">
+              CƠ CHẾ TÀI CHÍNH ĐẶC THÙ
+            </span>
+<h4 class="text-2xl sm:text-4xl font-black text-sky-950 mt-2 font-display">
+              KINH PHÍ HỖ TRỢ THEO NGHỊ QUYẾT 36/2026/NQ-HĐND
+            </h4>
+<p class="text-xl sm:text-2xl font-bold italic text-sky-950 leading-relaxed drop-shadow-sm">Gắn ngân sách đầu tư với cam kết làm việc tối thiểu 6 năm tại y tế công lập TPHCM</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+<div class="capped-stat-box">
+<div class="cap-header">HỖ TRỢ 100% HỌC PHÍ THỰC TẾ</div>
+<div class="p-8 text-center space-y-3">
+<div class="text-5xl sm:text-6xl font-black text-sky-800 tracking-tight font-display">40 <span class="text-3xl sm:text-4xl font-black text-cyan-600">tỷ VNĐ</span></div>
+<div class="text-xs sm:text-sm text-slate-700 font-bold">Tối đa <span class="text-sky-900 font-black">100 triệu đồng/người/năm học</span></div>
+<div class="inline-block px-4 py-1.5 bg-sky-100 text-sky-800 text-xs font-black rounded-full">Dự kiến 400 BSNT / năm</div>
+</div>
+</div>
+<div class="capped-stat-box">
+<div class="cap-header">HỖ TRỢ SINH HOẠT PHÍ CHUYÊN NGÀNH KHÓ THU HÚT</div>
+<div class="p-8 text-center space-y-3">
+<div class="text-5xl sm:text-6xl font-black text-sky-800 tracking-tight font-display">10,2 <span class="text-3xl sm:text-4xl font-black text-cyan-600">tỷ VNĐ</span></div>
+<div class="text-xs sm:text-sm text-slate-700 font-bold">Bằng <span class="text-sky-900 font-black">2 lần mức lương tối thiểu vùng I</span></div>
+<div class="inline-block px-4 py-1.5 bg-cyan-100 text-cyan-800 text-xs font-black rounded-full">Dự kiến 80 BSNT / năm</div>
+</div>
+</div>
+</div>
+<div class="bg-gradient-to-r from-sky-800 via-sky-700 to-cyan-700 rounded-2xl p-6 text-white flex flex-col sm:flex-row items-center justify-between gap-4 shadow-xl border border-sky-400/30">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-2xl bg-white/20 flex items-center justify-center flex-shrink-0">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="shield-check" aria-hidden="true" class="lucide lucide-shield-check w-7 h-7 text-cyan-300"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path><path d="m9 12 2 2 4-4"></path></svg>
+</div>
+<div>
+<div class="text-xs text-cyan-200 uppercase font-bold tracking-wider">TỔNG KINH PHÍ TỐI ĐA</div>
+<div class="text-4xl sm:text-5xl font-black tracking-tight font-display text-white drop-shadow">50,2 TỶ ĐỒNG / NĂM</div>
+</div>
+</div>
+<div class="text-xs sm:text-sm bg-white/10 px-5 py-2.5 rounded-2xl backdrop-blur-md border border-white/20 font-bold">
+              Cam kết phục vụ tối thiểu: <span class="font-black text-cyan-300 text-base">6 NĂM</span> tại cơ sở công lập TPHCM
+            </div>
+</div>
+</div>
+<p>Theo PGS-TS-BS Tăng Chí Thượng, đến ngày 14-11, đã có 44 bệnh viện đăng ký tuyển 725 BSNT. Nhiều nhất là Bệnh viện Nhân dân Gia Định với nhu cầu 90 BSNT, tiếp đến là Bệnh viện Phục hồi chức năng - Điều trị bệnh nghề nghiệp với nhu cầu 84 BSNT, Bệnh viện Đa khoa Bình Dương có nhu cầu 57 BSNT, Bệnh viện Đa khoa khu vực Hóc Môn có nhu cầu 35 BSNT... Những chuyên ngành có nhu cầu là hồi sức cấp cứu, gây mê hồi sức, nội tim mạch, ngoại khoa, chẩn đoán hình ảnh, nhi khoa và các chuyên khoa sâu. BS-CK2 Trần Văn Sóng, Giám đốc Bệnh viện Nhân dân 115, chia sẻ, bệnh viện đang phát triển thành trung tâm y tế chuyên sâu về đột quỵ và kỹ thuật cao nên dự kiến thu hút 10-12 BSNT thuộc 6 chuyên ngành khóa 2026-2029. Trong thời gian học, bác sĩ được tham gia sinh hoạt khoa học, nghiên cứu, cải tiến chất lượng; việc bố trí sau tốt nghiệp căn cứ nhu cầu, năng lực và vị trí việc làm, với điều kiện đáp ứng yêu cầu hành nghề.</p>
+<p>Về lâu dài, PGS-TS Trần Thị Khánh Tường, Trường Đại học Y khoa Phạm Ngọc Thạch, đề xuất, nên có cơ chế đặt hàng đào tạo: bệnh viện xác định nhu cầu BSNT, thời điểm, vị trí tiếp nhận; thành phố phối hợp với nhà trường phân bổ chỉ tiêu, hỗ trợ kinh phí và bố trí việc làm sau tốt nghiệp. Cần xác định chuyên ngành khó thu hút theo từng địa bàn, chỉ mở rộng quy mô tương ứng năng lực giảng viên, bệnh viện thực hành và độ đa dạng ca bệnh. Chuẩn đầu ra cũng nên thống nhất để BSNT cùng chuyên ngành, dù tốt nghiệp trường nào, đều có năng lực hành nghề an toàn, hiệu quả, đáp ứng yêu cầu phát triển y tế chuyên sâu và giúp người bệnh tiếp cận điều trị chất lượng cao.</p><div class="w-screen relative left-1/2 -translate-x-1/2 px-4 md:px-8 max-w-[100vw] my-14"><div class="max-w-7xl mx-auto space-y-12"><figure class="rounded-3xl overflow-hidden border-2 border-sky-200/80 bg-white shadow-2xl group transition-all duration-500 hover:shadow-sky-900/20 hover:border-sky-300"><div class="relative overflow-hidden bg-slate-100 max-h-[680px]"><img src="https://lh3.googleusercontent.com/aida-public/AB6AXuASlSLgZKPtwZmsrJ3BlMk8nowNDGL1Dc7ipbGlIl6C0qTPDhVGm_U6R5z1bCqUvlKcQ7KdxR3iN3QsMNs428y6vFRkiC1YZG4Z4CcLLeAVoE00VVTeNoSsTQNdpx9Y-ZW_almmAuVJ2r_y0aD6CGflKbh0w6i5zfdd4Pwx-3B3vAmmJCdw0zW159PbfdhZ5rGiqWK3yteubbembe_bHcGmlGgTq-DMPPb_Dni2TZvzHRjK3hPAkkSESQ" alt="Một bác sĩ trẻ thăm khám cho BN tại khoa Cấp cứu, Bệnh viện Nhân dân Gia Định" class="w-full h-auto max-h-[680px] object-cover transition-transform duration-700 group-hover:scale-[1.02] cursor-pointer" onclick="openLightbox(this.src, this.alt)"><div class="absolute bottom-4 right-4 bg-sky-950/80 backdrop-blur-md text-white px-4 py-2 rounded-full text-xs font-ui font-bold flex items-center gap-2 pointer-events-none"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="zoom-in" aria-hidden="true" class="lucide lucide-zoom-in text-cyan-400 w-4 h-4"><circle cx="11" cy="11" r="8"></circle><line x1="21" x2="16.65" y1="21" y2="16.65"></line><line x1="11" x2="11" y1="8" y2="14"></line><line x1="8" x2="14" y1="11" y2="11"></line></svg> Xem ảnh lớn</div></div><figcaption class="p-5 sm:p-6 text-sm sm:text-base text-slate-700 border-t border-sky-100 flex items-start gap-3 leading-relaxed bg-gradient-to-b from-white to-sky-50 font-serif italic"><svg class="w-5 h-5 text-sky-600 mt-0.5 flex-shrink-0 not-italic" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg><span>Một bác sĩ trẻ thăm khám cho BN tại khoa Cấp cứu, Bệnh viện Nhân dân Gia Định</span></figcaption></figure><figure class="rounded-3xl overflow-hidden border-2 border-sky-200/80 bg-white shadow-2xl group transition-all duration-500 hover:shadow-sky-900/20 hover:border-sky-300"><div class="relative overflow-hidden bg-slate-100 max-h-[680px]"><img src="https://lh3.googleusercontent.com/aida-public/AB6AXuBdluSn9y0DfiZoWdMi4A_u9BODHUPUA8_eUALVOD_0Hb4aiEOyB5zkBAQfWmnQyJVvmlyq-HPZt-AAEh4KV3ZDDhzT6tHAYlApJ1fBzKU7ipgnFMXUJ4JTtm5ePG_hO5vIdfZ6Qjp2Yl5lGQoTJHP_NmaKQaU5ShJDC7Oo-nrAWVuawE9CFojEdFGFlXuoq3tXVFP4JAN2u0zKvuGzfW2tsVTYo1FZT6lPpqSnTZTt_XJ0uSRakxfTzw" alt="Nhân viên y tế thuộc khối sơ sinh, Bệnh viện Nhi đồng 1 TPHCM" class="w-full h-auto max-h-[680px] object-cover transition-transform duration-700 group-hover:scale-[1.02] cursor-pointer" onclick="openLightbox(this.src, this.alt)"><div class="absolute bottom-4 right-4 bg-sky-950/80 backdrop-blur-md text-white px-4 py-2 rounded-full text-xs font-ui font-bold flex items-center gap-2 pointer-events-none"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="zoom-in" aria-hidden="true" class="lucide lucide-zoom-in text-cyan-400 w-4 h-4"><circle cx="11" cy="11" r="8"></circle><line x1="21" x2="16.65" y1="21" y2="16.65"></line><line x1="11" x2="11" y1="8" y2="14"></line><line x1="8" x2="14" y1="11" y2="11"></line></svg> Xem ảnh lớn</div></div><figcaption class="p-5 sm:p-6 text-sm sm:text-base text-slate-700 border-t border-sky-100 flex items-start gap-3 leading-relaxed bg-gradient-to-b from-white to-sky-50 font-serif italic"><svg class="w-5 h-5 text-sky-600 mt-0.5 flex-shrink-0 not-italic" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg><span>Nhân viên y tế thuộc khối sơ sinh, Bệnh viện Nhi đồng 1 TPHCM</span></figcaption></figure></div></div>
+<!-- 2 Ảnh Cuối -->
+
+</div>
+</div>
+</section>
+<!-- 3 HỘP Ý KIẾN CHUYÊN GIA -->
+<section class="py-16 sm:py-24 px-4 font-ui relative" id="chuyen-gia">
+<div class="max-w-7xl mx-auto">
+<div class="text-center max-w-3xl mx-auto mb-16">
+<div class="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full bg-gradient-to-r from-sky-600 to-cyan-500 text-white text-xs font-black uppercase tracking-wider shadow-md mb-3">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="message-square" aria-hidden="true" class="lucide lucide-message-square w-4 h-4"><path d="M22 17a2 2 0 0 1-2 2H6.828a2 2 0 0 0-1.414.586l-2.202 2.202A.71.71 0 0 1 2 21.286V5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2z"></path></svg>
+<span>Ý KIẾN CHUYÊN GIA &amp; LÃNH ĐẠO NGÀNH Y</span>
+</div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+<div class="glass-cyan-card rounded-3xl p-8 flex flex-col justify-between hover:-translate-y-2 transition duration-300 relative group" style="background: linear-gradient(135deg, rgb(240, 249, 255) 0%, rgb(224, 242, 254) 50%, rgb(230, 244, 250) 100%); border: 1.5px solid rgb(186, 230, 253);">
+<div class="space-y-4">
+<div class="flex items-center justify-between">
+
+<div class="w-9 h-9 rounded-2xl bg-sky-600 text-white flex items-center justify-center shadow-md">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="quote" aria-hidden="true" class="lucide lucide-quote w-4 h-4"><path d="M16 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z"></path><path d="M5 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z"></path></svg>
+</div>
+</div>
+<div class="flex justify-center my-4"><img src="https://lh3.googleusercontent.com/aida-public/AB6AXuDoVOBWwTSijdTxORm-wg2bBwStsRbz7IBMpXGmoN2XIXflMg54BC3lls12zSOIg1zZjU_kakAGG9D09XJQrcVt_8_XbDtSBGn68q1aEIXMv9_cxKA8K6N79q1MQxpKassbACy0hRJUMKbhhIKZ-k5R-dSygBqJmRqDnSmL-6uym6Aht8jKNEufmneRg9Cji6p3lqxxZz2ILPAthRvkSwITpd-U3noXjGsn0jCBxfYXCw7p_6c3zB-8ZQ" alt="PGS-TS-BS Tăng Chí Thượng" class="w-48 h-48 rounded-full object-cover border-4 border-cyan-400 shadow-xl mx-auto"></div><div>
+<h4 class="text-xl font-black text-sky-950 uppercase font-display text-center">PGS-TS-BS TĂNG CHÍ THƯỢNG</h4>
+<p class="text-xs font-bold text-sky-700 text-center">Giám đốc Sở Y tế TPHCM</p>
+</div>
+<div class="w-12 h-1 bg-sky-500 rounded-full mx-auto"></div>
+<h5 class="text-lg sm:text-xl font-black text-sky-950 font-serif"><div>Thu hút bác sĩ nội trú gắn với định hướng chuyên môn</div></h5>
+<p class="text-slate-700 text-sm leading-relaxed font-serif" style="line-height: 1.8;"></p><div>Để thu hút BSNT sau tốt nghiệp, hệ thống y tế phải chú trọng tạo cơ hội nâng cao chuyên môn, nghiên cứu, tiếp cận kỹ thuật mới, có lộ trình nghề nghiệp rõ ràng và được ghi nhận xứng đáng. Nếu chỉ giữ người bằng cam kết hành chính mà thiếu môi trường làm việc và cơ hội phát triển, hiệu quả đầu tư khó đạt như kỳ vọng. Thu hút BSNT phải gắn với định hướng chuyên môn, vị trí việc làm tại từng bệnh viện, ưu tiên chuyên ngành thiếu nhân lực, khó tuyển hoặc cần phát triển kỹ thuật chuyên sâu.</div><p></p>
+</div>
+</div>
+<div class="glass-cyan-card rounded-3xl p-8 flex flex-col justify-between hover:-translate-y-2 transition duration-300 relative group" style="background: linear-gradient(135deg, rgb(240, 249, 255) 0%, rgb(224, 242, 254) 50%, rgb(230, 244, 250) 100%); border: 1.5px solid rgb(186, 230, 253);">
+<div class="space-y-4">
+<div class="flex items-center justify-between">
+
+<div class="w-9 h-9 rounded-2xl bg-cyan-600 text-white flex items-center justify-center shadow-md">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="quote" aria-hidden="true" class="lucide lucide-quote w-4 h-4"><path d="M16 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z"></path><path d="M5 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z"></path></svg>
+</div>
+</div>
+<div class="flex justify-center my-4"><img src="https://lh3.googleusercontent.com/aida-public/AB6AXuCpnqZWTH1_m56hJKsfdH452-x7UMob02dj0Pndhr5zSmoF2o4Woi7uEp3sBzxAsZFEYFw2B-ECioTniE962WTMF7Qz5AqQ-ypjgHz7qeIx6L2hLcyQXBVfkygrmT4DxYq8tVtVaDUTcFVuWo7-hZo589WxgW53oxIwV7dd2cNr8w20YIbC4kSRt4UrQT-TBYQSXLMe_v3VcMqWcghqammy5ZhCyGyZgQyDSlfXwCOYcG6C4nQtjzeNVw" alt="GS Trần Diệp Tuấn" class="w-48 h-48 rounded-full object-cover border-4 border-cyan-400 shadow-xl mx-auto"></div><div>
+<h4 class="text-xl font-black text-sky-950 uppercase font-display text-center">GS Trần Diệp Tuấn</h4>
+<p class="text-xs font-bold text-cyan-700 text-center">Hiệu trưởng Đại học Y Dược TPHCM</p>
+</div>
+<div class="w-12 h-1 bg-cyan-500 rounded-full mx-auto"></div>
+<h5 class="text-lg sm:text-xl font-black text-sky-950 font-serif"><div>Nên thống nhất chuẩn năng lực đầu ra</div></h5>
+<p class="text-slate-700 text-sm leading-relaxed font-serif" style="line-height: 1.8;">
+              Phỏng vấn trong tuyển sinh BSNT giúp đánh giá mức độ phù hợp với chuyên ngành bên cạnh kiến thức chuyên môn. Để bảo đảm khách quan, hạn chế tác động bên ngoài, nhà trường nên xây dựng chặt chẽ quy trình, thang điểm và tập huấn hội đồng tuyển sinh. Mỗi cơ sở có thể linh hoạt phương pháp nhưng cần thống nhất chuẩn đầu ra. BSNT cùng chuyên ngành, dù tốt nghiệp ở đâu, phải đáp ứng yêu cầu cốt lõi về kiến thức, kỹ năng lâm sàng và xử trí tình huống. Chuẩn hóa đầu ra giúp nâng cao chất lượng, bảo đảm tính nhất quán và tạo cơ sở đánh giá năng lực sau tốt nghiệp.
+            </p>
+</div>
+</div>
+<div class="glass-cyan-card rounded-3xl p-8 flex flex-col justify-between hover:-translate-y-2 transition duration-300 relative group" style="background: linear-gradient(135deg, rgb(240, 249, 255) 0%, rgb(224, 242, 254) 50%, rgb(230, 244, 250) 100%); border: 1.5px solid rgb(186, 230, 253);">
+<div class="space-y-4">
+<div class="flex items-center justify-between">
+
+<div class="w-9 h-9 rounded-2xl bg-sky-700 text-white flex items-center justify-center shadow-md">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="quote" aria-hidden="true" class="lucide lucide-quote w-4 h-4"><path d="M16 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z"></path><path d="M5 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z"></path></svg>
+</div>
+</div>
+<div class="flex justify-center my-4"><img src="https://lh3.googleusercontent.com/aida-public/AB6AXuDnGZG_FWb1uBvk0J8qTGJz7JfplSHZKY1sM5-Hy6TmhGhxQp6fLs5xcCluc77m_YiS9ORq7_gWaYEQIegq1ki-A9xeyFUcz9Xopd9FYALu8qOuMGc1jFmVRaXsPxOy-iug8K8sIkWjmYpxX8JC1IU4PVpTs0fRGmc4YuCDnNfVQ8-Jw3mwhg5ByewlE0FIxe_umWW-545PSY4sOpS9MJb9VGS2NkhvvW0eYjfZj0eY8LAOPhMKLO3LCg" alt="TS-BS Châu Phú Thi" class="w-48 h-48 rounded-full object-cover border-4 border-cyan-400 shadow-xl mx-auto"></div><div>
+<h4 class="text-xl font-black text-sky-950 uppercase font-display text-center">TS-BS Châu Phú Thi</h4>
+<p class="text-xs font-bold text-sky-700 text-center">Trưởng phòng Tổ chức cán bộ, Bệnh viện Chợ Rẫy</p>
+</div>
+<div class="w-12 h-1 bg-sky-600 rounded-full mx-auto"></div>
+<h5 class="text-lg sm:text-xl font-black text-sky-950 font-serif"><div>Không chỉ dừng ở tuyển được người</div></h5>
+<p class="text-slate-700 text-sm leading-relaxed font-serif" style="line-height: 1.8;">
+              Tuyển dụng, bố trí nhân lực ở bệnh viện công lập cần căn cứ vị trí việc làm, số lượng người làm việc và quy định về tuyển dụng, sử dụng viên chức. Vì vậy, không phải BSNT nào tốt nghiệp cũng được tuyển ngay đúng chuyên ngành, nguyện vọng. Bệnh viện tuyến cuối có cường độ làm việc cao, trách nhiệm lớn, đòi hỏi liên tục cập nhật kỹ thuật. Việc sử dụng BSNT không nên dừng ở tuyển được người, mà phải tạo điều kiện để họ phát huy năng lực, tiếp tục nghiên cứu, phát triển nghề nghiệp và xây dựng sự nghiệp lâu dài tại bệnh viện.
+            </p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- FOOTER -->
+
+</main>
+<!-- Lightbox Modal -->
+<div class="fixed inset-0 z-50 bg-black/90 items-center justify-center p-4 backdrop-blur-sm hidden" id="lightboxModal" onclick="closeLightbox()">
+<div class="max-w-5xl max-h-[90vh] relative flex flex-col items-center" onclick="event.stopPropagation()">
+<button class="absolute -top-12 right-0 text-white hover:text-cyan-400 p-2 text-2xl font-bold" onclick="closeLightbox()">×</button>
+<img alt="" class="max-w-full max-h-[75vh] object-contain rounded-2xl shadow-2xl border border-white/20" id="lightboxImg" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDN0mVf_lXvTQYpWfqw9ZtRFp8DWyVkYUJ_d2AiU7EX8Z5HkQKuVm2THMwXF_pcMmZqUURWGG38jKlitMjzscIe48eBMkf7-msa3sfM9J3wXz6D3mPTmP-Gaa2P4FvB_VyE-7uVUsjqjgTIZJD9QQpg6BGzKTs_Omvs-TdD7Yc6S3rIP6iJkPXcrDrXjeTd6zgRWKMENn6jgaNjfI4m6zXiINCslXwcEHg6mda00PSxlur3JoRecDhmiA">
+<p class="text-white text-sm sm:text-base font-serif italic text-center mt-4 max-w-3xl px-4 text-sky-100" id="lightboxCaption">BSNT Trần Tuấn Kiệt thăm khám cho bệnh nhân</p>
+</div>
+</div>
+<script>
+  lucide.createIcons();
+
+  window.addEventListener('scroll', () => {
+    const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const progress = (window.scrollY / totalHeight) * 100;
+    const bar = document.getElementById('scrollProgress');
+    if (bar) bar.style.width = progress + '%';
+  });
+
+  function openLightbox(src, caption) {
+    const modal = document.getElementById('lightboxModal');
+    const img = document.getElementById('lightboxImg');
+    const cap = document.getElementById('lightboxCaption');
+    if (!modal || !img) return;
+    img.src = src;
+    if (cap) cap.textContent = caption || '';
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeLightbox() {
+    const modal = document.getElementById('lightboxModal');
+    if (!modal) return;
+    modal.classList.add('hidden');
+    modal.classList.remove('flex');
+    document.body.style.overflow = '';
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body></html>
